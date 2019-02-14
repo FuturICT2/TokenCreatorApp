@@ -11,8 +11,8 @@ export class Navigator extends React.Component {
     return (
       <Router>
         <Tabs key="root">
-          <Scene key="Creator" component={Creator} title="Creator"/>
-          <Scene key="Wallet" component={Wallet} title="Wallet" initial="true"/>
+          <Scene key="Creator" component={Creator} title="Creator" initial="true"/>
+          <Scene key="Wallet" component={Wallet} title="Wallet"/>
           <Scene key="Obtainer" component={Placeholder} title="Obtainer"/>
           <Scene key="Market" component={Placeholder} title="Market"/>
         </Tabs>
