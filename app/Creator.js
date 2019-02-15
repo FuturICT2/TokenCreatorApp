@@ -6,33 +6,41 @@ import * as Yup from 'yup';
 
 import {Input} from './Input';
 
-const api = (user) =>
-  new Promise((resolve, reject) => {
-    setTimeout(() => {
-      if (user.email === "hello@gmail.com") {
-        reject({ email: 'Email already in use'});
-      } else {
-        resolve();
-      }
-    }, 3000);
-});
+// const api = (user) =>
+//   new Promise((resolve, reject) => {
+//     setTimeout(() => {
+//       if (user.email === "hello@gmail.com") {
+//         reject({ email: 'Email already in use'});
+//       } else {
+//         resolve();
+//       }
+//     }, 3000);
+// });
 
 export class Creator extends React.Component {
 
-  _handleSubmit = async(values, bag) => {
-    try {
-      await api(values);
-      Alert.alert('welcome');
-    } catch (error){
-      bag.setSubmitting(false);
-      bag.setErrors(error);
-      // Alert.alert(JSON.stringify(values))
-    }
+  constructor(props) {
+    super(props);
+  }
+
+
+  _handleSubmit = (values, bag) => {
+    // this.setState({tokenProperties: values});
+    const {newToken} = this.props;
+    newToken(values);
+    // try {
+    //   await api(values);
+    //   Alert.alert('welcome');
+    // } catch (error){
+    //   bag.setSubmitting(false);
+    //   bag.setErrors(error);
+    //   // Alert.alert(JSON.stringify(values))
+    // }
   }
 
   render() {
     return (
-      <View style={styles.container}>
+      <View style={styles.container} newToken={this.newToken}>
         <ScrollView style={styles.list}>
           <Formik
             initialValues={{
