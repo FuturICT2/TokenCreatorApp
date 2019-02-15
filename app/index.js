@@ -4,6 +4,7 @@ import { StyleSheet, View } from 'react-native';
 import {Creator} from './Creator'
 import {Navigator} from './Navigator'
 
+
 export default class App extends React.Component {
   render() {
     return (

@@ -3,6 +3,7 @@ import { Router, Scene, Tabs, Modal, ActionConst } from 'react-native-router-flu
 
 import { Creator } from './Creator'
 import { Wallet } from './Wallet'
+import { Settings } from './Settings'
 import { Placeholder } from './Placeholder'
 
 export class Navigator extends React.Component {
@@ -32,7 +33,6 @@ export class Navigator extends React.Component {
             key="Creator" 
             component={Creator} 
             title="Creator" 
-            initial="true" 
             newToken={this.addNewToken}/>
           <Scene 
             key="Wallet" 
@@ -41,6 +41,8 @@ export class Navigator extends React.Component {
             tokens={this.state.tokens}/>
           <Scene key="Obtainer" component={Placeholder} title="Obtainer"/>
           <Scene key="Market" component={Placeholder} title="Market"/>
+          <Scene key="Settings" component={Settings} title="Settings" initial="true"/>
+
         </Tabs>
       </Router>
     )
