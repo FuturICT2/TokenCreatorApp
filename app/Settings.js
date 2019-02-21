@@ -1,5 +1,5 @@
 import React from 'react';
-import { StyleSheet, View, ScrollView, Button } from 'react-native';
+import { StyleSheet, View, ScrollView, Button, AsyncStorage, Alert } from 'react-native';
 
 import { Formik } from 'formik';
 import * as Yup from 'yup';
@@ -10,21 +10,53 @@ export class Settings extends React.Component {
 
   constructor(props) {
     super(props);
+    this.state = {
+        blockchain: "prim"
+    }
   }
 
+  async componentWillMount() {
+    this._retrieveData("@TokenCreator:blockchain");
+  }
 
-  _handleSubmit = (values, bag) => {
-    const {newSettings} = this.props;
-    newSettings(values);
+  _retrieveData = async (value) => {
+    try {
+      const value = await AsyncStorage.getItem('@TokenCreator:blockchain');
+      if (value !== null) {
+        // We have data!!
+        console.log("value is: " + value);
+        this.setState({
+          blockchain: value
+        })
+        return value;
+      }
+    } catch (error) {
+      // Error retrieving data
+      console.log("NO SUCH TOKEN");
+      console.error(error);
+    }
+  }
+
+  _handleSubmit = async (values, bag) => {
+    
+    try {
+        Object.entries(values).forEach( async setting => {
+            await AsyncStorage.setItem('@TokenCreator:${setting[0]}', setting[1]);
+            // await AsyncStorage.setItem('@TokenCreator:', "Liddy");
+
+        });
+    } catch (error) {
+        Alert.alert("Error saving data");
+    }
   }
 
   render() {
     return (
-      <View style={styles.container} settings={this.newSettings}>
+      <View style={styles.container}>
         <ScrollView style={styles.list}>
           <Formik
-            initialValues={{
-              blockchain: 'Ethereum Test Net',
+            async initialValues={{
+              blockchain: JSON.stringify(this.state.blockchain),
               mainCurrency: 'CHF',
               profileName: 'Personal',
             }}
