@@ -1,33 +1,48 @@
 import React from 'react';
 import { StyleSheet, View, ScrollView, Button, AsyncStorage, Alert } from 'react-native';
+import Reactotron from 'reactotron-react-native'
 
 import { Formik } from 'formik';
 import * as Yup from 'yup';
 
 import {Input} from './Input';
 
+console.tron = Reactotron
+
 export class Settings extends React.Component {
 
   constructor(props) {
     super(props);
     this.state = {
-        blockchain: "prim"
+      blockchain: null,
+      mainCurrency: null,
+      profileName: null
     }
   }
 
-  async componentWillMount() {
-    this._retrieveData("@TokenCreator:blockchain");
+  async componentDidMount() {
+    const blockchain = await this._retrieveData("@TokenCreator:blockchain");
+    const mainCurrency = await this._retrieveData("@TokenCreator:mainCurrency");
+    const profileName = await this._retrieveData("@TokenCreator:profileName");
+
+    this.setState({
+      blockchain: blockchain,
+      mainCurrency: mainCurrency,
+      profileName: profileName
+    })
   }
 
-  _retrieveData = async (value) => {
+  _retrieveData = async (key) => {
     try {
-      const value = await AsyncStorage.getItem('@TokenCreator:blockchain');
+      const value = await AsyncStorage.getItem(key);
+      console.tron.display({
+        name: 'Async Storage Vals',
+        value: value,
+        important: true,
+      })
       if (value !== null) {
         // We have data!!
         console.log("value is: " + value);
-        this.setState({
-          blockchain: value
-        })
         return value;
       }
     } catch (error) {
@@ -41,8 +56,7 @@ export class Settings extends React.Component {
     
     try {
         Object.entries(values).forEach( async setting => {
-            await AsyncStorage.setItem('@TokenCreator:${setting[0]}', setting[1]);
-            // await AsyncStorage.setItem('@TokenCreator:', "Liddy");
+            await AsyncStorage.setItem('@TokenCreator:'+setting[0], setting[1]);
 
         });
     } catch (error) {
@@ -55,10 +69,11 @@ export class Settings extends React.Component {
       <View style={styles.container}>
         <ScrollView style={styles.list}>
           <Formik
+            enableReinitialize
             async initialValues={{
-              blockchain: JSON.stringify(this.state.blockchain),
-              mainCurrency: 'CHF',
-              profileName: 'Personal',
+              blockchain: this.state.blockchain,
+              mainCurrency: this.state.mainCurrency,
+              profileName: this.state.profileName,
             }}
             onSubmit={this._handleSubmit}
             validationSchema={Yup.object().shape({
@@ -109,7 +124,7 @@ export class Settings extends React.Component {
                 backgroundColor="Blue"
                 style={styles.button}
                 onPress={handleSubmit}
-                disabled={!isValid || isSubmitting }
+                disabled={!isValid }
                 title="Save changes"
                 loading={isSubmitting}
                 />
