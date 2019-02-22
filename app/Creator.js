@@ -1,5 +1,5 @@
 import React from 'react';
-import { StyleSheet, View, ScrollView, Alert, Text, Button } from 'react-native';
+import { StyleSheet, View, ScrollView, AsyncStorage, Button } from 'react-native';
 import { RkButton } from 'react-native-ui-kitten';
 import { Formik } from 'formik';
 import * as Yup from 'yup';
@@ -28,14 +28,6 @@ export class Creator extends React.Component {
     // this.setState({tokenProperties: values});
     const {newToken} = this.props;
     newToken(values);
-    // try {
-    //   await api(values);
-    //   Alert.alert('welcome');
-    // } catch (error){
-    //   bag.setSubmitting(false);
-    //   bag.setErrors(error);
-    //   // Alert.alert(JSON.stringify(values))
-    // }
   }
 
   render() {

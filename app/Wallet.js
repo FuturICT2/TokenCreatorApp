@@ -1,11 +1,18 @@
 import React from 'react';
 import { StyleSheet, Text, View, ScrollView, Image } from 'react-native';
 import {RkCard} from 'react-native-ui-kitten';
+import Reactotron from 'reactotron-react-native'
+
+console.tron = Reactotron
 
 export class Wallet extends React.Component {
 
   renderItem = (token, i) => {
-    
+    console.tron.display({
+      name: 'token Wallet',
+      value: token,
+      important: true,
+    })
     return  (
       <RkCard>
             <View rkCardHeader>
@@ -25,7 +32,11 @@ export class Wallet extends React.Component {
   render() {
     
     const {tokens} = this.props;
-
+    console.tron.display({
+      name: 'tokens Wallet',
+      value: tokens,
+      important: true,
+    })
     return (
       <View style={styles.container}>
         <ScrollView style={styles.list}>

@@ -1,13 +1,11 @@
 import React from 'react';
+
 import { StyleSheet, View, ScrollView, Button, AsyncStorage, Alert } from 'react-native';
-import Reactotron from 'reactotron-react-native'
 
 import { Formik } from 'formik';
 import * as Yup from 'yup';
 
 import {Input} from './Input';
-
-console.tron = Reactotron
 
 export class Settings extends React.Component {
 
@@ -34,12 +32,8 @@ export class Settings extends React.Component {
 
   _retrieveData = async (key) => {
     try {
+
       const value = await AsyncStorage.getItem(key);
-      console.tron.display({
-        name: 'Async Storage Vals',
-        value: value,
-        important: true,
-      })
       if (value !== null) {
         // We have data!!
         console.log("value is: " + value);
