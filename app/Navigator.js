@@ -28,30 +28,17 @@ export class Navigator extends React.Component {
     
     const tokenIdentifiers = uniq(tokenKeys.map((key) => key.substring(0,28)));
     const tokenKeyCodes = tokenKeys.map((key) => key.substring(29));
-    var tokens = [];
     
-    tokenIdentifiers.forEach( (tokenIdentifier) => {
+    tokenIdentifiers.forEach( async (tokenIdentifier) => {
       var token = {};
-      tokenKeyCodes.forEach(async (key) => {
+      await tokenKeyCodes.forEach(async (key) => {
         const wholeKey = tokenIdentifier+":"+key;
         const value = await AsyncStorage.getItem(wholeKey);
         token[key] = value;
-        });
-      console.tron.display({
-        name: 'token in Nav did mount',
-        value: token,
-        important: true,
+      });
+      this.setState({
+        tokens: [...this.state.tokens, token]
       })
-      tokens = [ ...tokens, token]  
-    })
-    console.tron.display({
-      name: 'tokens in Navigator did mount',
-      value: tokens,
-      important: true,
-    })
-
-    this.setState({
-      tokens: tokens
     })
   }
   

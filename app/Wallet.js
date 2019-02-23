@@ -15,17 +15,17 @@ export class Wallet extends React.Component {
     })
     return  (
       <RkCard>
-            <View rkCardHeader>
-              <Text>{token.tokenName} ({token.tokenSymbol})</Text>
-            </View>
-            <Image rkCardImg source={require('../assets/images/sea.jpg')}/>
-            <View rkCardContent>
-              <Text> max_supply: {token.max_supply}</Text>
-            </View>
-            <View rkCardFooter>
-              <Text>Footer</Text>
-            </View>
-          </RkCard>
+        <View rkCardHeader>
+          <Text>{token.tokenName} ({token.tokenSymbol})</Text>
+        </View>
+        <Image rkCardImg source={require('../assets/images/sea.jpg')}/>
+        <View rkCardContent>
+          <Text> max_supply: {token.max_supply}</Text>
+        </View>
+        <View rkCardFooter>
+          <Text>Footer</Text>
+        </View>
+      </RkCard>
     )
   }
 
