@@ -46,30 +46,39 @@ export class Wallet extends React.Component {
     </View>
   );
 
-  setModalVisible = (visible) => {
-    this.setState({ modalVisible: visible });
+  _handleSubmit = (values, bag) => {
+    // this.setState({tokenProperties: values});
+    this.setModalVisible(false);
+    const {deleteToken} = this.props;
+    deleteToken(values);
+  }
+
+  setModalVisible = (visible, token) => {
+    this.setState({ 
+      modalVisible: visible,
+      activeToken: token
+    });
   };
 
-  onItemPressed = () => {
-    this.setModalVisible(true);
+  onItemPressed = (item) => {
+    this.setModalVisible(true, item);
+    console.tron.display({
+      name: 'Token tacos',
+      value: item,
+      important: true,
+    })
   };
 
   extractItemKey = (item) => `${item.id}`;
 
   renderItem = ({ item }) => {
     const { gradient, icon } = this.getCardStyle();
-    // const { firstPart, lastPart } = this.prepareCardNo(item.cardNo);
-    console.tron.display({
-        name: 'item',
-        value: item,
-        important: true,
-      })
     return (
       <RkCard rkType='credit' style={styles.card} key={item.id}>
         <TouchableOpacity
           delayPressIn={70}
           activeOpacity={0.8}
-          onPress={this.onItemPressed}>
+          onPress={() => this.onItemPressed(item)}>
           <LinearGradient
             colors={gradient}
             start={{ x: 0.0, y: 1 }}
@@ -108,7 +117,7 @@ export class Wallet extends React.Component {
         important: true,
       })
     return (
-        <View style={styles.root}>
+        <View style={styles.root} deleteToken={this.deleteToken}>
         <FlatList
             style={styles.list}
             showsVerticalScrollIndicator={false}
@@ -136,7 +145,7 @@ export class Wallet extends React.Component {
                 </RkButton>
                 <View style={styles.separator} />
                 <RkButton
-                    onPress={() => this.setModalVisible(false)}
+                    onPress={() => this._handleSubmit(this.state.activeToken)}
                     style={styles.popupButton}
                     rkType='clear'>
                     <RkText>OK</RkText>

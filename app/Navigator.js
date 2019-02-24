@@ -58,6 +58,19 @@ export class Navigator extends React.Component {
     }
   }
 
+  deleteToken = async (token) => {
+    const allKeys = await AsyncStorage.getAllKeys();
+    const tokenKeys = allKeys.filter((key) => key.includes(token.id));
+    await AsyncStorage.multiRemove(tokenKeys)
+    console.tron.log(token);
+    const {tokens} = this.state;
+    var index = tokens.indexOf(token);
+    this.setState({
+      tokens: [ ...this.state.tokens.splice(index, 1) ]
+    })
+
+  }
+
 
   addNewToken = (newToken) => {
     const {tokens} = this.state
@@ -91,6 +104,7 @@ export class Navigator extends React.Component {
             key="Wallet" 
             component={Wallet}
             title="Wallet"
+            deleteToken={this.deleteToken}
             tokens={this.state.tokens}
             />
           <Scene key="Obtainer" component={Placeholder} title="Obtainer"/>
