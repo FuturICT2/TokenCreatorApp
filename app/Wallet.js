@@ -52,6 +52,16 @@ export class Wallet extends React.Component {
     });
   };
 
+  onItemPressed = (item) => {
+    this.setModalVisible(true, item);
+    console.tron.display({
+      name: 'Token tacos',
+      value: item,
+      important: true,
+    })
+  };
+
+
   extractItemKey = (item) => `${item.id}`;
 
   renderItem = ({ item }) => {
@@ -143,6 +153,8 @@ export class Wallet extends React.Component {
 const styles = RkStyleSheet.create(theme => ({
   root: {
     backgroundColor: theme.colors.screen.base,
+    flex: 1,
+    justifyContent: 'space-between',
   },
   list: {
     marginHorizontal: 16,
