@@ -38,14 +38,6 @@ export class Wallet extends React.Component {
       };
   };
 
-  renderFooter = () => (
-    <View style={styles.footer}>
-      <RkButton style={styles.button} rkType='circle highlight'>
-        <MaterialCommunityIcons name="plus" size={32} color="white" />
-      </RkButton>
-    </View>
-  );
-
   _handleSubmit = (values, bag) => {
     // this.setState({tokenProperties: values});
     this.setModalVisible(false);
@@ -58,15 +50,6 @@ export class Wallet extends React.Component {
       modalVisible: visible,
       activeToken: token
     });
-  };
-
-  onItemPressed = (item) => {
-    this.setModalVisible(true, item);
-    console.tron.display({
-      name: 'Token tacos',
-      value: item,
-      important: true,
-    })
   };
 
   extractItemKey = (item) => `${item.id}`;
@@ -121,7 +104,6 @@ export class Wallet extends React.Component {
         <FlatList
             style={styles.list}
             showsVerticalScrollIndicator={false}
-            ListFooterComponent={this.renderFooter}
             keyExtractor={this.extractItemKey}
             data={tokens}
             renderItem={this.renderItem}
@@ -183,11 +165,6 @@ const styles = RkStyleSheet.create(theme => ({
   },
   date: {
     marginTop: scaleVertical(20),
-  },
-  footer: {
-    marginTop: 8,
-    marginBottom: scaleVertical(16),
-    alignItems: 'center',
   },
   button: {
     height: 56,
