@@ -89,7 +89,7 @@ export class Navigator extends React.Component {
             />
           <Scene 
             key="Wallet" 
-            component={Wallet} 
+            component={Wallet}
             title="Wallet"
             tokens={this.state.tokens}
             />

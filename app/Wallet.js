@@ -15,7 +15,7 @@ import {
   RkTheme,
 } from 'react-native-ui-kitten';
 import { LinearGradient } from 'expo';
-import { Ionicons, MaterialCommunityIcons } from '@expo/vector-icons';
+import { MaterialCommunityIcons } from '@expo/vector-icons';
 import { scaleVertical } from './utils/scale'; 
 import Reactotron from 'reactotron-react-native'
 
@@ -41,7 +41,7 @@ export class Wallet extends React.Component {
   renderFooter = () => (
     <View style={styles.footer}>
       <RkButton style={styles.button} rkType='circle highlight'>
-        <Ionicons name="md-add" size={40} color="white" />
+        <MaterialCommunityIcons name="plus" size={32} color="white" />
       </RkButton>
     </View>
   );

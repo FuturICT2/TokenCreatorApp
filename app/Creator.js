@@ -35,6 +35,7 @@ export class Creator extends React.Component {
       <View style={styles.root} newToken={this.newToken}>
         <ScrollView style={styles.list}>
           <Formik
+            style={styles.form}
             initialValues={{
               tokenName: '',
               tokenSymbol: '',
@@ -68,7 +69,7 @@ export class Creator extends React.Component {
               setFieldTouched,
               isValid,
               isSubmitting}) => (
-              <React.Fragment style={styles.form}>
+              <React.Fragment>
                 <Input
                   label="Token name"
                   autoCapitalize="none"
