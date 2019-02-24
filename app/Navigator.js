@@ -1,5 +1,5 @@
 import React from 'react'
-import {AsyncStorage} from 'react-native'
+import {AsyncStorage, StyleSheet} from 'react-native'
 import { Router, Scene, Tabs } from 'react-native-router-flux'
 
 import { Creator } from './Creator'
@@ -36,6 +36,7 @@ export class Navigator extends React.Component {
         const value = await AsyncStorage.getItem(wholeKey);
         token[key] = value;
       });
+      token["id"] = tokenIdentifier;
       this.setState({
         tokens: [...this.state.tokens, token]
       })
@@ -77,24 +78,37 @@ export class Navigator extends React.Component {
 
   render(){
     return (
-      <Router>
+      <Router style={styles.root}>
         <Tabs key="root">
           <Scene 
             key="Creator" 
             component={Creator} 
             title="Creator" 
-            newToken={this.addNewToken}/>
+            newToken={this.addNewToken}
+            initial="true"
+            />
           <Scene 
             key="Wallet" 
             component={Wallet} 
             title="Wallet"
-            tokens={this.state.tokens}/>
+            tokens={this.state.tokens}
+            />
           <Scene key="Obtainer" component={Placeholder} title="Obtainer"/>
           <Scene key="Market" component={Placeholder} title="Market"/>
-          <Scene key="Settings" component={Settings} title="Settings" initial="true"/>
+          <Scene key="Settings" component={Settings} title="Settings"/>
 
         </Tabs>
       </Router>
     )
   }
 }
+
+const styles = StyleSheet.create({
+
+  root: {
+    flex: 1,
+    flexDirection: "column",
+    justifyContent: 'center',
+    alignItems: 'stretch',
+  },
+});

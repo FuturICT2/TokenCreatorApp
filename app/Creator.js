@@ -1,6 +1,6 @@
 import React from 'react';
 import { StyleSheet, View, ScrollView, AsyncStorage, Button } from 'react-native';
-import { RkButton } from 'react-native-ui-kitten';
+import { RkButton, RkStyleSheet } from 'react-native-ui-kitten';
 import { Formik } from 'formik';
 import * as Yup from 'yup';
 
@@ -32,7 +32,7 @@ export class Creator extends React.Component {
 
   render() {
     return (
-      <View style={styles.container} newToken={this.newToken}>
+      <View style={styles.root} newToken={this.newToken}>
         <ScrollView style={styles.list}>
           <Formik
             initialValues={{
@@ -68,7 +68,7 @@ export class Creator extends React.Component {
               setFieldTouched,
               isValid,
               isSubmitting}) => (
-              <React.Fragment>
+              <React.Fragment style={styles.form}>
                 <Input
                   label="Token name"
                   autoCapitalize="none"
@@ -131,19 +131,28 @@ export class Creator extends React.Component {
   }
 }
 
-const styles = StyleSheet.create({
-  list:{
-    margin: 5,
+const styles = RkStyleSheet.create(theme => ({
+  root: {
+    backgroundColor: theme.colors.screen.base,
     flex: 1,
+    justifyContent: 'space-between',
   },
-  button:{
-    marginTop: 20,
-    width: '100%',
-  },
-  container: {
+  form: {
     flex: 1,
-    flexDirection: "column",
-    justifyContent: 'center',
-    alignItems: 'stretch',
+    justifyContent: 'space-between',
   },
-});
+  heading: {
+    paddingBottom: 12.5,
+  },
+  row: {
+    flexDirection: 'row',
+    paddingHorizontal: 17.5,
+    borderBottomWidth: StyleSheet.hairlineWidth,
+    borderColor: theme.colors.border.base,
+    alignItems: 'center',
+  },
+  button: {
+    marginHorizontal: 16,
+    marginBottom: 32,
+  },
+}));

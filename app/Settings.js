@@ -1,6 +1,7 @@
 import React from 'react';
 
 import { StyleSheet, View, ScrollView, Button, AsyncStorage, Alert } from 'react-native';
+import { RkStyleSheet } from 'react-native-ui-kitten';
 
 import { Formik } from 'formik';
 import * as Yup from 'yup';
@@ -60,8 +61,8 @@ export class Settings extends React.Component {
 
   render() {
     return (
-      <View style={styles.container}>
-        <ScrollView style={styles.list}>
+      <View style={styles.root}>
+        <ScrollView >
           <Formik
             enableReinitialize
             async initialValues={{
@@ -131,19 +132,42 @@ export class Settings extends React.Component {
   }
 }
 
-const styles = StyleSheet.create({
-  list:{
-    margin: 5,
+
+const styles = RkStyleSheet.create(theme => ({
+  root: {
+    backgroundColor: theme.colors.screen.base,
     flex: 1,
+    justifyContent: 'space-between',
   },
-  button:{
-    marginTop: 20,
-    width: '100%',
+  heading: {
+    paddingBottom: 12.5,
   },
-  container: {
-    flex: 1,
-    flexDirection: "column",
-    justifyContent: 'center',
-    alignItems: 'stretch',
+  row: {
+    flexDirection: 'row',
+    paddingHorizontal: 17.5,
+    borderBottomWidth: StyleSheet.hairlineWidth,
+    borderColor: theme.colors.border.base,
+    alignItems: 'center',
   },
-});
+  button: {
+    marginHorizontal: 16,
+    marginBottom: 32,
+  },
+}));
+
+// const styles = StyleSheet.create({
+//   list:{
+//     margin: 5,
+//     flex: 1,
+//   },
+//   button:{
+//     marginTop: 20,
+//     width: '100%',
+//   },
+//   container: {
+//     flex: 1,
+//     flexDirection: "column",
+//     justifyContent: 'center',
+//     alignItems: 'stretch',
+//   },
+// });
