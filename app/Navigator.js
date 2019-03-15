@@ -62,11 +62,16 @@ export class Navigator extends React.Component {
     const allKeys = await AsyncStorage.getAllKeys();
     const tokenKeys = allKeys.filter((key) => key.includes(token.id));
     await AsyncStorage.multiRemove(tokenKeys)
-    console.tron.log(token);
     const {tokens} = this.state;
+    console.tron.display({
+      name: 'All but one',
+      value: tokens,
+      description: tokens
+    })
     var index = tokens.indexOf(token);
+    tokens.splice(index, 1);
     this.setState({
-      tokens: [ ...this.state.tokens.splice(index, 1) ]
+      tokens: tokens
     })
 
   }
