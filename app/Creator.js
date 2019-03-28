@@ -37,12 +37,18 @@ export class Creator extends React.Component {
           <Formik
             style={styles.form}
             initialValues={{
-              tokenName: '',
-              tokenSymbol: '',
-              max_supply: null,
-              decimals: null,
-              genesisSupply: null
+              tokenName: 'test',
+              tokenSymbol: 'TST',
+              max_supply: '5',
+              decimals: '4',
+              genesisSupply: '3'
             }}
+            // tokenName: '',
+            //   tokenSymbol: '',
+            //   max_supply: null,
+            //   decimals: null,
+            //   genesisSupply: null
+            // }}
             onSubmit={this._handleSubmit}
             validationSchema={Yup.object().shape({
               tokenName: Yup.string()
@@ -119,7 +125,7 @@ export class Creator extends React.Component {
                 backgroundColor="Blue"
                 style={styles.button}
                 onPress={handleSubmit}
-                disabled={!isValid || isSubmitting }
+                // disabled={!isValid || isSubmitting }
                 title="Submit"
                 loading={isSubmitting}
                 />
