@@ -1,23 +1,22 @@
 import React from 'react';
 import { View } from 'react-native';
 import { Provider } from 'react-redux';
-import { createStore } from 'redux';
-import tokenReducer from './reducers/TokenReducer';
-
 import Navigator from './containers/Navigator'
-import styles from './styles/Styles'
-import Reactotron from 'reactotron-react-native';
+import { PersistGate } from 'redux-persist/integration/react'
+import { store, persistor } from './config/configureStore'
+import Reactotron from 'reactotron-react-native'
 
-const store = createStore(tokenReducer);
 
 export default class App extends React.Component {
   render() {
-    Reactotron.log("index.js")
+    Reactotron.log("store, persistor: ", store, persistor)
     return (
       <Provider store={ store }>
-        <View style={{ flex: 1 }}>
-            <Navigator />
-        </View>
+        <PersistGate loading={null} persistor={persistor}>
+          <View style={{ flex: 1 }}>
+              <Navigator />
+          </View>
+        </PersistGate>
       </Provider>
     );
   }

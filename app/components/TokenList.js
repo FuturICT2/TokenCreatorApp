@@ -3,10 +3,6 @@ import Token from './Token'
   import {
     FlatList
   } from 'react-native';
-  import {
-    RkStyleSheet,
-  } from 'react-native-ui-kitten';
-import Reactotron from 'reactotron-react-native'
 import styles from '../styles/Styles'
 
 
@@ -15,17 +11,15 @@ const TokenList = ({ tokens, onTokenPress }) => (
         style={styles.list}
         showsVerticalScrollIndicator={false}
         data={tokens}
-        renderItem={({item, index}) => {
-              Reactotron.display({
-                name: 'Flatlist item',
-                value: item,
-                description: index
-              })
+        extraData={tokens}
+        removeClippedSubviews={false}
+        // Sort out keyExctractor
+        keyExtractor={(item, index) => index+item.tokenName}
+        renderItem={({item}) => {
           return (
-            <Token 
-                key={index} 
-                onPress={ () => onTokenPress(item) }
-                item={item}
+          <Token 
+              onPress={ () => onTokenPress(item) }
+              item={item}
             />)
         }}
   >

@@ -1,5 +1,5 @@
 import React from 'react';
-import { StyleSheet, View, ScrollView, AsyncStorage, Button } from 'react-native';
+import { View, ScrollView, Button } from 'react-native';
 
 import { Formik } from 'formik';
 import * as Yup from 'yup';

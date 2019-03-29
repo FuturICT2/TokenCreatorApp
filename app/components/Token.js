@@ -20,7 +20,7 @@ let Token = ({ onPress, item }) => {
     }
     Reactotron.log("Token: ", item)
     return (
-      <RkCard rkType='credit' style={styles.card}>
+      <RkCard rkType='credit' style={styles.card} >
         <TouchableOpacity
           delayPressIn={70}
           activeOpacity={0.8}

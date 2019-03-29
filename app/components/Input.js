@@ -1,6 +1,6 @@
 import React, {PureComponent} from 'react';
-import { View, StyleSheet, Text, Alert } from 'react-native';
-import { RkTextInput, RkStyleSheet } from 'react-native-ui-kitten';
+import { View, Text } from 'react-native';
+import { RkTextInput } from 'react-native-ui-kitten';
 import styles from '../styles/Styles'
 
 export class Input extends PureComponent {
