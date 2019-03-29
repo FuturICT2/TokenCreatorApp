@@ -18,6 +18,8 @@
     "react-native-formik": "^1.7.2",
     "react-native-router-flux": "^4.0.6",
     "react-native-ui-kitten": "^3.1.2",
+    "react-redux": "^6.0.1",
+    "redux": "^4.0.1",
     "watchman": "^1.0.0",
     "yup": "^0.26.10"
   },

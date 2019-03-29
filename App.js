@@ -1,5 +1,4 @@
 import React from 'react';
-import { StyleSheet, View } from 'react-native';
 import {
   AppLoading,
   Font,
@@ -9,7 +8,7 @@ import { bootstrap } from './app/config/bootstrap';
 
 if(__DEV__) {
   console.log("configuring Reactotron")
-  import('./app/ReactotronConfig').then(() => console.log('Reactotron Configured'))
+  import('./app/config/ReactotronConfig').then(() => console.log('Reactotron Configured'))
 }
 
 bootstrap();

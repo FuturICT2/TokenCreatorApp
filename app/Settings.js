@@ -1,12 +1,11 @@
 import React from 'react';
 
 import { StyleSheet, View, ScrollView, Button, AsyncStorage, Alert } from 'react-native';
-import { RkStyleSheet } from 'react-native-ui-kitten';
-
+import styles from './styles/Styles'
 import { Formik } from 'formik';
 import * as Yup from 'yup';
 
-import {Input} from './Input';
+import {Input} from './components/Input';
 
 export class Settings extends React.Component {
 
@@ -130,29 +129,6 @@ export class Settings extends React.Component {
     )
   }
 }
-
-
-const styles = RkStyleSheet.create(theme => ({
-  root: {
-    backgroundColor: theme.colors.screen.base,
-    flex: 1,
-    justifyContent: 'space-between',
-  },
-  heading: {
-    paddingBottom: 12.5,
-  },
-  row: {
-    flexDirection: 'row',
-    paddingHorizontal: 17.5,
-    borderBottomWidth: StyleSheet.hairlineWidth,
-    borderColor: theme.colors.border.base,
-    alignItems: 'center',
-  },
-  button: {
-    marginHorizontal: 16,
-    marginBottom: 32,
-  },
-}));
 
 // const styles = StyleSheet.create({
 //   list:{

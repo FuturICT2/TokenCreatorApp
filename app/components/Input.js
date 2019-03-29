@@ -1,6 +1,7 @@
 import React, {PureComponent} from 'react';
 import { View, StyleSheet, Text, Alert } from 'react-native';
 import { RkTextInput, RkStyleSheet } from 'react-native-ui-kitten';
+import styles from '../styles/Styles'
 
 export class Input extends PureComponent {
 
@@ -29,32 +30,3 @@ export class Input extends PureComponent {
     );
   }
 }
-
-  const styles = RkStyleSheet.create(theme => ({
-    root: {
-      backgroundColor: theme.colors.screen.base,
-      width: '90%',
-      alignSelf: 'center'
-    },
-    header: {
-      backgroundColor: theme.colors.screen.neutral,
-      paddingVertical: 25,
-    },
-    section: {
-      marginVertical: 25,
-    },
-    heading: {
-      paddingBottom: 12.5,
-    },
-    row: {
-      flexDirection: 'row',
-      paddingHorizontal: 17.5,
-      borderBottomWidth: StyleSheet.hairlineWidth,
-      borderColor: theme.colors.border.base,
-      alignItems: 'center',
-    },
-    button: {
-      marginHorizontal: 16,
-      marginBottom: 32,
-    },
-  }));

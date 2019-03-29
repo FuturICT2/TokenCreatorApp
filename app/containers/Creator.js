@@ -1,45 +1,23 @@
 import React from 'react';
 import { StyleSheet, View, ScrollView, AsyncStorage, Button } from 'react-native';
-import { RkButton, RkStyleSheet } from 'react-native-ui-kitten';
+
 import { Formik } from 'formik';
 import * as Yup from 'yup';
+import { connect } from 'react-redux';
+import { addToken } from '../actions/TokenActions';
+import {Input} from '../components/Input';
+import styles from '../styles/Styles'
 
-import {Input} from './Input';
-
-// const api = (user) =>
-//   new Promise((resolve, reject) => {
-//     setTimeout(() => {
-//       if (user.email === "hello@gmail.com") {
-//         reject({ email: 'Email already in use'});
-//       } else {
-//         resolve();
-//       }
-//     }, 3000);
-// });
-
-export class Creator extends React.Component {
-
-  constructor(props) {
-    super(props);
-  }
-
-
-  _handleSubmit = (values, bag) => {
-    // this.setState({tokenProperties: values});
-    const {newToken} = this.props;
-    newToken(values);
-  }
-
-  render() {
-    return (
-      <View style={styles.root} newToken={this.newToken}>
+let Creator = ({dispatch}) => {
+  return (
+      <View style={styles.root}>
         <ScrollView style={styles.list}>
           <Formik
             style={styles.form}
             initialValues={{
               tokenName: 'test',
               tokenSymbol: 'TST',
-              max_supply: '5',
+              max_supply: '6',
               decimals: '4',
               genesisSupply: '3'
             }}
@@ -49,7 +27,9 @@ export class Creator extends React.Component {
             //   decimals: null,
             //   genesisSupply: null
             // }}
-            onSubmit={this._handleSubmit}
+            onSubmit={(values, actions) => {
+              dispatch(addToken(values));
+            }}
             validationSchema={Yup.object().shape({
               tokenName: Yup.string()
                 .required(),
@@ -134,32 +114,8 @@ export class Creator extends React.Component {
           />
         </ScrollView>
       </View>
-    )
-  }
+  )
 }
 
-const styles = RkStyleSheet.create(theme => ({
-  root: {
-    backgroundColor: theme.colors.screen.base,
-    flex: 1,
-    justifyContent: 'space-between',
-  },
-  form: {
-    flex: 1,
-    justifyContent: 'space-between',
-  },
-  heading: {
-    paddingBottom: 12.5,
-  },
-  row: {
-    flexDirection: 'row',
-    paddingHorizontal: 17.5,
-    borderBottomWidth: StyleSheet.hairlineWidth,
-    borderColor: theme.colors.border.base,
-    alignItems: 'center',
-  },
-  button: {
-    marginHorizontal: 16,
-    marginBottom: 32,
-  },
-}));
+Creator = connect()(Creator);
+export default Creator
