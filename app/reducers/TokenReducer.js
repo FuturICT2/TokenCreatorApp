@@ -1,9 +1,4 @@
-import { combineReducers } from 'redux';
 import Reactotron from 'reactotron-react-native';
-
-const INITIAL_STATE = {
-    tokens: []
-};
 
 const tokenReducer = (state = [], action) => {
   Reactotron.log("reducer", state)
@@ -30,16 +25,4 @@ const tokenReducer = (state = [], action) => {
   }
 };
 
-const appReducer = combineReducers({
-  tokens: tokenReducer,
-});
-
-const rootReducer = (state, action) => {
-  if (action.type === 'USER_LOGOUT') {
-    state = undefined
-  }
-  Reactotron.log("rootReducer", state)
-  return appReducer(state, action)
-}
-
-export default rootReducer
+export default tokenReducer
