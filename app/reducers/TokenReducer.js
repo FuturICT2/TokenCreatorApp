@@ -2,20 +2,19 @@ import { combineReducers } from 'redux';
 import Reactotron from 'reactotron-react-native';
 
 const INITIAL_STATE = {
-    tokens: [],
-    walletModalVisible: false
+    tokens: []
 };
 
-const tokenReducer = (state = INITIAL_STATE, action) => {
-  const { walletModalVisible, tokens } = state;
+const tokenReducer = (state = [], action) => {
+  Reactotron.log("reducer", state)
+  const tokens = [...state];
   switch (action.type) {
     case 'ADD_TOKEN':
         Reactotron.log("Reducer: adding token");
         tokens.push(action.payload);
         // Finally, update our redux state
-        const newState = { tokens };
-        Reactotron.log(newState);
-        return newState;
+        Reactotron.log(state);
+        return tokens;
 
     case 'DELETE_TOKEN':
       Reactotron.log("Reducer: deleting token", tokens);
@@ -24,13 +23,23 @@ const tokenReducer = (state = INITIAL_STATE, action) => {
         tokens.splice(index, 1);
       }
       Reactotron.log("Reducer: deleted token", tokens);
-      return { tokens };
+      return tokens ;
   
     default:
       return state
   }
 };
 
-export default combineReducers({
+const appReducer = combineReducers({
   tokens: tokenReducer,
 });
+
+const rootReducer = (state, action) => {
+  if (action.type === 'USER_LOGOUT') {
+    state = undefined
+  }
+  Reactotron.log("rootReducer", state)
+  return appReducer(state, action)
+}
+
+export default rootReducer

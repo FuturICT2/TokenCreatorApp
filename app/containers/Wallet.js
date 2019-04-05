@@ -5,9 +5,9 @@ import { deleteToken } from '../actions/TokenActions';
 import TokenList from '../components/TokenList'
 
 const mapStateToProps = state => {
-  Reactotron.log("Wallet.js - mapStateToProps", state.tokens.tokens)
+  Reactotron.log("Wallet.js - mapStateToProps", state.tokens)
   return {
-    tokens: state.tokens.tokens,
+    tokens: state.tokens,
     // modalVisible: getModalVisible(state.modalVisible)
   }
 }
