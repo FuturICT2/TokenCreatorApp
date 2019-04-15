@@ -9,7 +9,6 @@ import Reactotron from 'reactotron-react-native'
 
 export default class App extends React.Component {
   render() {
-    Reactotron.log("store, persistor: ", store, persistor)
     return (
       <Provider store={ store }>
         <PersistGate loading={null} persistor={persistor}>

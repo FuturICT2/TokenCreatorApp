@@ -18,7 +18,6 @@ let Token = ({ onPress, item }) => {
       gradient: ['#FC354C', '#0ABFEF'],
       icon: "ethereum"
     }
-    Reactotron.log("Token: ", item)
     return (
       <RkCard rkType='credit' style={styles.card} >
         <TouchableOpacity

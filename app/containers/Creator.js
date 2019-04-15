@@ -5,11 +5,35 @@ import { Formik } from 'formik';
 import * as Yup from 'yup';
 import { connect } from 'react-redux';
 import { addToken } from '../actions/TokenActions';
+import { showModal } from '../actions/modalActions'
 import {Input} from '../components/Input';
 import styles from '../styles/Styles'
 
-let Creator = ({dispatch}) => {
-  return (
+const mapDispatchToProps = dispatch => ({
+  addToken: (values) => {
+    dispatch(addToken(values))
+    dispatch(showModal({
+      modalProps: {
+        modalIsOpen: true,
+        title: 'Token created',
+        message: "Check wallet tab below to find newly created token",
+      }, 
+      modalType: 'info'
+    }))
+  }
+ })
+
+const mapStateToProps = state => state
+
+
+class Creator extends React.Component {
+
+  constructor(props) {
+    super(props);
+  }
+
+  render(){
+    return(
       <View style={styles.root}>
         <ScrollView style={styles.list}>
           <Formik
@@ -27,9 +51,7 @@ let Creator = ({dispatch}) => {
             //   decimals: null,
             //   genesisSupply: null
             // }}
-            onSubmit={(values, actions) => {
-              dispatch(addToken(values));
-            }}
+            onSubmit={(values, actions) => this.props.addToken(values)}
             validationSchema={Yup.object().shape({
               tokenName: Yup.string()
                 .required(),
@@ -114,8 +136,8 @@ let Creator = ({dispatch}) => {
           />
         </ScrollView>
       </View>
-  )
+    )}
 }
 
-Creator = connect()(Creator);
+Creator = connect( mapStateToProps, mapDispatchToProps )(Creator);
 export default Creator

@@ -6,32 +6,38 @@ import { Settings } from '../Settings'
 import { Placeholder } from '../components/Placeholder'
 import Reactotron from 'reactotron-react-native'
 import styles from '../styles/Styles'
+import Modal from './ModalContainer'
+import { View } from 'react-native'
+import { connect } from 'react-redux';
 
-console.tron = Reactotron
-
-export default class Navigator extends React.Component {
-
+class Navigator extends React.Component {
+  
   render(){
     return (
-      <Router style={styles.root}>
-          <Tabs key="root">
-            <Scene 
-              key="Creator" 
-              component={Creator} 
-              title="Creator" 
-              initial="true"
-              />
-            <Scene 
-              key="Wallet" 
-              component={Wallet}
-              title="Wallet"
-              />
-            <Scene key="Obtainer" component={Placeholder} title="Obtainer"/>
-            <Scene key="Market" component={Placeholder} title="Market"/>
-            <Scene key="Settings" component={Settings} title="Settings"/>
+      <View style={styles.root}>
+        <Router style={styles.root}>
+            <Tabs key="root">
+              <Scene 
+                key="Creator" 
+                component={Creator} 
+                title="Creator" 
+                initial="true"
+                />
+              <Scene 
+                key="Wallet" 
+                component={Wallet}
+                title="Wallet"
+                />
+              <Scene key="Obtainer" component={Placeholder} title="Obtainer"/>
+              <Scene key="Market" component={Placeholder} title="Market"/>
+              <Scene key="Settings" component={Settings} title="Settings"/>
 
-          </Tabs>
-        </Router>
+            </Tabs>
+          </Router>
+          <Modal></Modal>
+        </View>
     )
   }
 }
+
+ export default connect(null, null)(Navigator);

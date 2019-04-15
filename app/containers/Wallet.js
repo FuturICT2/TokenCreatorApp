@@ -3,19 +3,25 @@ import Reactotron from 'reactotron-react-native';
 import { connect } from 'react-redux';
 import { deleteToken } from '../actions/TokenActions';
 import TokenList from '../components/TokenList'
+import { showModal } from '../actions/modalActions'
 
 const mapStateToProps = state => {
-  Reactotron.log("Wallet.js - mapStateToProps", state.tokens)
   return {
     tokens: state.tokens,
-    // modalVisible: getModalVisible(state.modalVisible)
   }
 }
 
 const mapDispatchToProps = dispatch => {
-  Reactotron.log("Wallet.js - mapDispatchToProps")
   return {
-    onTokenPress: token => dispatch(deleteToken(token))
+    onTokenPress: (token) => dispatch(showModal({
+      modalProps: {
+        modalIsOpen: true,
+        title: 'Delete Token',
+        message: "Are you sure you would like to delete this token?",
+        action: deleteToken(token),
+      },
+      modalType: "confirm"
+    }))
   }
 }
 
