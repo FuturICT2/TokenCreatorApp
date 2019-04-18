@@ -8,6 +8,14 @@ export function requestAuth(credentials){
   }
 }
 
+export function receiveLogout(response){
+  return{
+    type: ActionTypes.RECEIVE_LOGOUT,
+    response,
+    receivedAt: Date.now()
+  }
+}
+
 export function requestLogout(){
   return {
     type: ActionTypes.REQUEST_LOGOUT,
@@ -22,13 +30,20 @@ export function receiveAuth(response){
   }
 }
 
-export function receiveLogout(response){
+export function requestSignup(){
+  return {
+    type: ActionTypes.REQUEST_SIGNUP,
+  }
+}
+
+export function receiveSignup(response){
   return{
-    type: ActionTypes.RECEIVE_LOGOUT,
+    type: ActionTypes.RECEIVE_SIGNUP,
     response,
     receivedAt: Date.now()
   }
 }
+
 
 
 export function fetchAuth(credentials){
@@ -70,5 +85,26 @@ export function fetchLogout(){
         error => console.log('An error ocurred.;', error)
       )
       .then(json => dispatch(receiveLogout()))
+  }
+}
+
+export function fetchSignup(values){
+
+  return function(dispatch) {
+    dispatch(requestSignup())
+
+    return fetch( 'http://' + host + ':8181/wapi/signup', {
+        method: 'POST',
+        headers: {
+          Accept: 'application/json',
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(values),
+      })
+      .then(
+        response => response.json(),
+        error => console.log('An error ocurred.;', error)
+      )
+      .then(json => dispatch(receiveSignup()))
   }
 }

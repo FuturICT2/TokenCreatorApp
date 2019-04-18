@@ -3,24 +3,40 @@ import {
   View,
   Image,
   Keyboard,
+  ScrollView,
+  Button
 } from 'react-native';
+import {Input} from '../components/Input';
+
+import { Formik } from 'formik';
+import * as Yup from 'yup';
+
 import {
   RkButton,
   RkText,
-  RkTextInput,
-  RkTheme,
   RkAvoidKeyboard,
 } from 'react-native-ui-kitten';
+import styles from '../styles/Styles'
+import { fetchSignup } from '../actions/apiActions'
+import { connect } from 'react-redux';
+import { Actions } from 'react-native-router-flux';
 
-export default class SignUp extends React.Component {
 
-  getThemeImageSource = (theme) => (
-      require('../../assets/images/logo.png')
-  );
+const mapDispatchToProps = dispatch => ({
+  signup: (values) => {
+    dispatch(fetchSignup(values))
+  }
+ })
 
-  renderImage = () => (
-    <Image style={styles.image} source={this.getThemeImageSource(RkTheme.current)} />
-  );
+const mapStateToProps = state => state
+
+class Signup extends React.Component {
+
+
+  constructor(props) {
+    super(props)
+  }
+  
 
   onSignUpButtonPressed = () => {
     // this.props.navigation.goBack();
@@ -31,26 +47,39 @@ export default class SignUp extends React.Component {
   };
 // https://til.hashrocket.com/posts/vahuw4phan-check-the-password-confirmation-with-yup
   render = () => (
-    <RkAvoidKeyboard
-      style={styles.screen}
-      onStartShouldSetResponder={() => true}
-      onResponderRelease={() => Keyboard.dismiss()}>
+    <View style={styles.screen}>
       <View style={{ alignItems: 'center' }}>
-        {this.renderImage()}
+        {/* <Image style={styles.image} source={  require('../../assets/images/logo.png') } /> */}
         <RkText rkType='h1'>Registration</RkText>
       </View>
-      <View style={styles.content}>
-        <View style={styles.root}>
-          <ScrollView >
+      <View style={styles.footer}>
+          <View style={styles.textRow}>
+            <RkText rkType='primary3'>Already have an account?</RkText>
+            <RkButton rkType='clear' onPress={Actions.pop}>
+              <RkText rkType='header6'>Sign in now</RkText>
+            </RkButton>
+          </View>
+        </View>
+      <RkAvoidKeyboard
+      style={styles.content}
+      onStartShouldSetResponder={() => false}
+      onResponderRelease={() => Keyboard.dismiss()}>
+          <ScrollView style={styles.list}>
             <Formik
-              enableReinitialize
-              async initialValues={{
-                name: '',
-                email: '',
-                password: '',
-                confirmPassword: '',
+              style={styles.form}
+              initialValues={{
+                name: 'Prof Snape',
+                email: 'snape@snapecoin.com',
+                password: 'hodl',
+                confirmPassword: 'hodl'
               }}
-              onSubmit={this._handleSubmit}
+              // tokenName: '',
+              //   tokenSymbol: '',
+              //   max_supply: null,
+              //   decimals: null,
+              //   genesisSupply: null
+              // }}
+              onSubmit={(values, actions) => this.props.fetchSignup(values)}
               validationSchema={Yup.object().shape({
                 name: Yup.string()
                   .min(2, 'Too Short!')
@@ -80,7 +109,7 @@ export default class SignUp extends React.Component {
                     onChange={setFieldValue}
                     onTouch={setFieldTouched}
                     name="name"
-                    error={errors.name}
+                    error={touched.name && errors.name}
                   />
                   <Input
                     label="Email"
@@ -89,7 +118,7 @@ export default class SignUp extends React.Component {
                     onChange={setFieldValue}
                     onTouch={setFieldTouched}
                     name="email"
-                    error={errors.email}
+                    error={touched.email && errors.email}
                   />
                   <Input
                     label="Password"
@@ -98,7 +127,7 @@ export default class SignUp extends React.Component {
                     onChange={setFieldValue}
                     onTouch={setFieldTouched}
                     name="password"
-                    error={errors.password}
+                    error={touched.password && errors.password}
                   />
                   <Input
                     label="Confirm Password"
@@ -107,30 +136,24 @@ export default class SignUp extends React.Component {
                     onChange={setFieldValue}
                     onTouch={setFieldTouched}
                     name="confirmPassword"
-                    error={errors.confirmPassword}
+                    error={touched.confirmPassword && errors.confirmPassword}
                   />
-                <Button
-                  backgroundColor="Blue"
-                  style={styles.button}
-                  onPress={handleSubmit}
-                  disabled={!isValid }
-                  title="Save changes"
-                  loading={isSubmitting}
-                  />
+                  <Button
+                    backgroundColor="Blue"
+                    style={styles.button}
+                    onPress={handleSubmit}
+                    // disabled={!isValid || isSubmitting }
+                    title="Submit"
+                    loading={isSubmitting}
+                    />
                 </React.Fragment>
               )}
             />
           </ScrollView>
-        </View>
-        <View style={styles.footer}>
-          <View style={styles.textRow}>
-            <RkText rkType='primary3'>Already have an account?</RkText>
-            <RkButton rkType='clear' onPress={this.onSignInButtonPressed}>
-              <RkText rkType='header6'>Sign in now</RkText>
-            </RkButton>
-          </View>
-        </View>
-      </View>
-    </RkAvoidKeyboard>
+        </RkAvoidKeyboard>
+    </View>
   )
 }
+
+
+export default connect(mapStateToProps, mapDispatchToProps)(Signup);

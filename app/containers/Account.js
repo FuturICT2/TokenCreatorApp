@@ -21,27 +21,11 @@ import Reactotron from 'reactotron-react-native';
 import { Router, Scene, Stack } from 'react-native-router-flux'
 
 
-const mapDispatchToProps = dispatch => ({
-  onLoginButtonPressed: (values) => {
-    dispatch(fetchAuth(values))
-  },
-  onLogoutButtonPressed: () => {
-    dispatch(fetchLogout())
-  }
- })
-
-const mapStateToProps = state => state.user
-
 class Account extends React.Component {
 
   loginPage = () => (
       <Stack key='account'>
-        <Scene 
-          onLoginButtonPressed={ (values) => this.props.onLoginButtonPressed(values)}
-          key='Login' 
-          component={Login} 
-          title='Login'/>
-        <Scene key='Signup' component={Signup} title='Signup'/>
+
       </Stack>
   );
 
