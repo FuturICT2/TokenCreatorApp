@@ -7,7 +7,7 @@ RkButton,
 } from 'react-native-ui-kitten';
 
 
-const ConfirmModal = ({ closeModal, title, message }) => {
+const InfoModal = ({ closeModal, title, message }) => {
   return (
     <View style={styles.popupOverlay}>
       <View style={styles.popup}>
@@ -28,4 +28,4 @@ const ConfirmModal = ({ closeModal, title, message }) => {
   )
 }
 
-export default ConfirmModal
+export default InfoModal

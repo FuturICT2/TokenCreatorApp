@@ -1,4 +1,5 @@
-import { createStore } from 'redux'
+import { createStore, applyMiddleware } from 'redux'
+import thunkMiddleware from 'redux-thunk'
 import { persistStore, persistReducer } from 'redux-persist'
 import storage from 'redux-persist/lib/storage' 
 import rootReducer from '../reducers/index'
@@ -10,6 +11,11 @@ const persistConfig = {
 }
 
 const persistedReducer = persistReducer(persistConfig, rootReducer)
-
-export let store = createStore(persistedReducer)
+// We need thunk for async dispatch
+export let store = createStore(
+  persistedReducer,
+  applyMiddleware(
+    thunkMiddleware
+  )
+)
 export let persistor = persistStore(store)
