@@ -2,8 +2,8 @@ import React from 'react'
 import { Router, Scene, Tabs } from 'react-native-router-flux'
 import Creator  from './Creator'
 import Wallet  from './Wallet'
-import Login from './Login'
-import Profile from '../components/Profile'
+import Account from './Account'
+import Signup from './Signup'
 import { Settings } from '../Settings'
 import { Placeholder } from '../components/Placeholder'
 import Reactotron from 'reactotron-react-native'
@@ -16,15 +16,14 @@ const mapStateToProps = state => state
 class Navigator extends React.Component {
   
   render(){
-    Reactotron.log("navigator", this.props)
     return (
       <View style={styles.root}>
         <Router style={styles.root}>
             <Tabs key="root">
               <Scene 
-                key="Profile" 
-                component={Login} 
-                title="Profile" 
+                key="Account" 
+                component={Account} 
+                title="Account" 
                 initial="true"
                 />
               <Scene 
