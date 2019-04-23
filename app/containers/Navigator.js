@@ -26,6 +26,13 @@ const mapDispatchToProps = dispatch => ({
 const mapStateToProps = state => state
 class Navigator extends React.Component {
   
+  // be more specific about the error you're catching
+  componentDidCatch(error, info) {
+    // Display fallback UI
+    Reactotron("ERROR", error, info)
+    this.props.onLogoutButtonPressed()
+  }
+
   render(){
     return (
       <View style={styles.root}>
@@ -36,7 +43,7 @@ class Navigator extends React.Component {
                   onLoginButtonPressed={ (values) => this.props.onLoginButtonPressed(values)}
                   user={ this.props.user }
                   key='Login'
-                  on={this.props.user.isLoggedIn}
+                  on={this.props.user.profile}
                   component={Login} 
                   title='Login'/>
                 <Scene 
