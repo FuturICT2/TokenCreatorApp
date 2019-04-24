@@ -14,7 +14,6 @@ const mapDispatchToProps = dispatch => ({
     dispatch(addToken(values))
     dispatch(showModal({
       modalProps: {
-        modalIsOpen: true,
         title: 'Token created',
         message: "Check wallet tab below to find newly created token",
       }, 

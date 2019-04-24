@@ -29,7 +29,7 @@ class Navigator extends React.Component {
   // be more specific about the error you're catching
   componentDidCatch(error, info) {
     // Display fallback UI
-    Reactotron("ERROR", error, info)
+    Reactotron.log("ERROR", error, info, this.state)
     this.props.onLogoutButtonPressed()
   }
 

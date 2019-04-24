@@ -1,5 +1,7 @@
 import ActionTypes from '../constants/ActionTypes';
 import { host } from '../config/ReactotronConfig'
+import Reactotron from 'reactotron-react-native';
+import { showModal } from '../actions/modalActions'
 
 export function requestAuth(credentials){
   return {
@@ -59,11 +61,7 @@ export function fetchAuth(credentials){
         },  
         body: JSON.stringify(credentials),
       })
-      .then(
-        response => response.json(),
-        error => console.log('An error ocurred.;', error)
-      )
-      .then(json => dispatch(receiveAuth(json)))
+      .then(response => handleResponse(response, dispatch, receiveAuth))
   }
 }
 
@@ -90,10 +88,14 @@ export function fetchLogout(){
 
 export function fetchSignup(values){
 
+  delete values.confirmPassword
+  values = {...values, 	
+    agreeToTerms: true,
+    isFastSignup: false,}
+
   return function(dispatch) {
     dispatch(requestSignup())
-
-    return fetch( 'http://' + host + ':8181/wapi/signup', {
+    return fetch( 'http://' + host + ':8181/wapi/register', {
         method: 'POST',
         headers: {
           Accept: 'application/json',
@@ -101,10 +103,29 @@ export function fetchSignup(values){
         },
         body: JSON.stringify(values),
       })
-      .then(
-        response => response.json(),
-        error => console.log('An error ocurred.;', error)
-      )
-      .then(json => dispatch(receiveSignup()))
+      .then( response => handleResponse(response, dispatch, receiveSignup) )
   }
+}
+
+function handleResponse( response, dispatch, callback){
+  new Promise( (resolve) => {
+    if( !response.ok ){
+      throw response
+    }
+    resolve( response.json())
+  })
+  .then(json => dispatch( callback(json)))
+  .catch(error => showError(error, dispatch))
+}
+
+function showError( error, dispatch ){
+  error.text().then( errorMsg => {
+    dispatch(showModal({
+      modalProps: {
+        title: 'Error',
+        message: errorMsg,
+      }, 
+      modalType: 'info'
+    }))
+  })
 }

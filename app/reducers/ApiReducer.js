@@ -28,6 +28,9 @@ export default (state = initialState, action ) => {
     case ActionTypes.RECEIVE_LOGOUT:
       Reactotron.log('api reducer', action)
       return initialState
+    case ActionTypes.RECEIVE_SIGNUP:
+      Reactotron.log('api reducer', action)
+      return login(action.response)    
     default:
       return state
   }

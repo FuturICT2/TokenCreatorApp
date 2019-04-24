@@ -70,8 +70,8 @@ class Signup extends React.Component {
               initialValues={{
                 name: 'Prof Snape',
                 email: 'snape@snapecoin.com',
-                password: 'hodl',
-                confirmPassword: 'hodl'
+                password: 'hodlee',
+                confirmPassword: 'hodlee'
               }}
               // tokenName: '',
               //   tokenSymbol: '',
@@ -79,7 +79,7 @@ class Signup extends React.Component {
               //   decimals: null,
               //   genesisSupply: null
               // }}
-              onSubmit={(values, actions) => this.props.fetchSignup(values)}
+              onSubmit={(values, actions) => this.props.signup(values)}
               validationSchema={Yup.object().shape({
                 name: Yup.string()
                   .min(2, 'Too Short!')
@@ -89,6 +89,7 @@ class Signup extends React.Component {
                   .email('Invalid email')
                   .required(),
                 password: Yup.string()
+                  .min(6, 'Too Short!')
                   .required('Password is required'),
                 confirmPassword: Yup.string()
                   .oneOf([Yup.ref('password'), null], 'Passwords must match')
