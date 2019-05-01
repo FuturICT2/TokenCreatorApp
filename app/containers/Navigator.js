@@ -23,7 +23,9 @@ const mapDispatchToProps = dispatch => ({
   }
  })
 
-const mapStateToProps = state => state
+const mapStateToProps = state => {
+  return {user: state.user}
+}
 class Navigator extends React.Component {
   
   // be more specific about the error you're catching
