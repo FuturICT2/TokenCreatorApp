@@ -4,8 +4,9 @@ import { View, ScrollView, Button } from 'react-native';
 import { Formik } from 'formik';
 import * as Yup from 'yup';
 import { connect } from 'react-redux';
-import { addToken } from '../actions/TokenActions';
+import { addToken } from '../actions/TokenActions'
 import { showModal } from '../actions/modalActions'
+import { fetchCreateToken } from '../actions/apiActions'
 import {Input} from '../components/Input';
 import styles from '../styles/Styles'
 
@@ -19,6 +20,7 @@ const mapDispatchToProps = dispatch => ({
       }, 
       modalType: 'info'
     }))
+    dispatch(fetchCreateToken(values))
   }
  })
 
@@ -38,23 +40,24 @@ class Creator extends React.Component {
           <Formik
             style={styles.form}
             initialValues={{
-              tokenName: 'test',
-              tokenSymbol: 'TST',
+              name: 'test',
+              symbol: 'TST',
               max_supply: '6',
               decimals: '4',
-              genesisSupply: '3'
+              genesisSupply: '3',
+              purpose:'It\'s for testing'
             }}
-            // tokenName: '',
-            //   tokenSymbol: '',
+            // name: '',
+            //   symbol: '',
             //   max_supply: null,
             //   decimals: null,
             //   genesisSupply: null
             // }}
             onSubmit={(values, actions) => this.props.addToken(values)}
             validationSchema={Yup.object().shape({
-              tokenName: Yup.string()
+              name: Yup.string()
                 .required(),
-              tokenSymbol: Yup.string()
+              symbol: Yup.string()
                 .min(3)
                 .max(3)
                 .required(),
@@ -66,6 +69,8 @@ class Creator extends React.Component {
                 .required(),
               genesisSupply: Yup.number()
                 .min(1)
+                .required(),
+              purpose: Yup.string()
                 .required()
             })}
             render={ ({ values,
@@ -80,20 +85,20 @@ class Creator extends React.Component {
                 <Input
                   label="Token name"
                   autoCapitalize="none"
-                  value={values.tokenName}
+                  value={values.name}
                   onChange={setFieldValue}
                   onTouch={setFieldTouched}
-                  name="tokenName"
-                  error={touched.tokenName && errors.tokenName}
+                  name="name"
+                  error={touched.name && errors.name}
                 />
                 <Input
                   label="Token Symbol"
                   autoCapitalize="none"
-                  value={values.tokenSymbol}
+                  value={values.symbol}
                   onChange={setFieldValue}
                   onTouch={setFieldTouched}
-                  name="tokenSymbol"
-                  error={touched.tokenSymbol && errors.tokenSymbol}
+                  name="symbol"
+                  error={touched.symbol && errors.symbol}
                 />
                 <Input
                   label="Max. Supply"
@@ -121,6 +126,15 @@ class Creator extends React.Component {
                   onTouch={setFieldTouched}
                   name="genesisSupply"
                   error={touched.genesisSupply && errors.genesisSupply}
+                />
+                <Input
+                  label="Purpose"
+                  autoCapitalize="none"
+                  value={values.purpose}
+                  onChange={setFieldValue}
+                  onTouch={setFieldTouched}
+                  name="purpose"
+                  error={touched.purpose && errors.purpose}
                 />
               <Button
                 backgroundColor="Blue"

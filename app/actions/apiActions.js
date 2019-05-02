@@ -55,6 +55,14 @@ export function receiveTokens(response){
   }
 }
 
+export function receiveCreateTokens(response){
+  return{
+    type: ActionTypes.RECEIVE_CREATE_TOKENS,
+    response,
+    receivedAt: Date.now()
+  }
+}
+
 export function fetchAuth(credentials){
 
   return function(dispatch) {
@@ -155,5 +163,22 @@ export function fetchTokens(){
         credentials: 'same-origin',
       })
       .then( response => handleResponse(response, dispatch, receiveTokens) )
+    }
+}
+
+export function fetchCreateToken(token){
+
+  return function(dispatch) {
+    // dispatch(requestSignup())
+    return fetch( 'http://' + host + ':8181/wapi/assets', {
+        method: 'POST',
+        headers: {
+          Accept: 'application/json',
+          'Content-Type': 'application/json',
+        },
+        credentials: 'same-origin',
+        body: JSON.stringify(token),
+      })
+      .then( response => handleResponse(response, dispatch, receiveCreateToken) )
     }
 }
