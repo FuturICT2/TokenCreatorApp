@@ -5,32 +5,33 @@ import { Actions } from 'react-native-router-flux';
 const initialState = {
   isFetching: false,
   isLoggedIn: false,
-  session: '',
-  data: {}
 }
 
-function login(data){
+function login(data, state){
   if (data == "Invalid login")
     return initialState
-  const newState = {
+  return {
+    ...state,
     isFetching: false,
     isLoggedIn: true,
     profile: data
   }
-  return newState
 }
 
 export default (state = initialState, action ) => {
   switch (action.type){
     case ActionTypes.RECEIVE_AUTH:
-      Reactotron.log("api reducer", action)
-      return login(action.response)
+      Reactotron.log("receive login", action)
+      return login(action.response, state)
     case ActionTypes.RECEIVE_LOGOUT:
-      Reactotron.log('api reducer', action)
+      Reactotron.log('receive logout', action)
       return initialState
     case ActionTypes.RECEIVE_SIGNUP:
-      Reactotron.log('api reducer', action)
-      return login(action.response)    
+      Reactotron.log('receive signup', action)
+      return login(action.response, state)  
+    case ActionTypes.RECEIVE_TOKENS:
+      Reactotron.log('receive tokens', action)
+      return {...state, serverTokens: action.response} 
     default:
       return state
   }

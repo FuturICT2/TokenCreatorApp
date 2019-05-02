@@ -2,6 +2,7 @@ import ActionTypes from '../constants/ActionTypes';
 import { host } from '../config/ReactotronConfig'
 import Reactotron from 'reactotron-react-native';
 import { showModal } from '../actions/modalActions'
+import {store} from '../config/configureStore'
 
 export function requestAuth(credentials){
   return {
@@ -46,7 +47,13 @@ export function receiveSignup(response){
   }
 }
 
-
+export function receiveTokens(response){
+  return{
+    type: ActionTypes.RECEIVE_TOKENS,
+    response,
+    receivedAt: Date.now()
+  }
+}
 
 export function fetchAuth(credentials){
 
@@ -59,9 +66,12 @@ export function fetchAuth(credentials){
           Accept: 'application/json',
           'Content-Type': 'application/json',
         },  
+        credentials: 'same-origin',
         body: JSON.stringify(credentials),
       })
-      .then(response => handleResponse(response, dispatch, receiveAuth))
+      .then(response => {
+        handleResponse(response, dispatch, receiveAuth)
+      })
   }
 }
 
@@ -103,7 +113,8 @@ export function fetchSignup(values){
         },
         body: JSON.stringify(values),
       })
-      .then( response => handleResponse(response, dispatch, receiveSignup) )
+      .then( response => {
+        handleResponse(response, dispatch, receiveSignup) })
   }
 }
 
@@ -128,4 +139,21 @@ function showError( error, dispatch ){
       modalType: 'info'
     }))
   })
+}
+
+
+
+export function fetchTokens(){
+
+  return function(dispatch) {
+    // dispatch(requestSignup())
+    return fetch( 'http://' + host + ':8181/wapi/assets', {
+        method: 'GET',
+        headers: {
+          Accept: '*/*',
+        },
+        credentials: 'same-origin',
+      })
+      .then( response => handleResponse(response, dispatch, receiveTokens) )
+    }
 }

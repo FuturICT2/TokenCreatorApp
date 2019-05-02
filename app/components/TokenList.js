@@ -1,29 +1,44 @@
 import React from 'react'
-import Token from './Token'
+import MarketToken from './MarketToken'
   import {
-    FlatList
+    FlatList,
+    RefreshControl
   } from 'react-native';
 import styles from '../styles/Styles'
+import Reactotron from 'reactotron-react-native'
+import { connect } from 'react-redux';
 
+const mapStateToProps = state => state.user
+class TokenList extends React.Component {
 
-const TokenList = ({ tokens, onTokenPress }) => (
+  constructor(props) {
+    super(props)
+  }
+  
+  render() {
+    var refreshing = false
+    return(
   <FlatList
         style={styles.list}
         showsVerticalScrollIndicator={false}
-        data={tokens}
-        extraData={tokens}
+        data={this.props.serverTokens}
+        // extraData={this.props}
         removeClippedSubviews={false}
         // Sort out keyExctractor
         keyExtractor={(item, index) => index+item.tokenName}
+        refreshing={refreshing}
+        onRefresh={ () => this.props.refresh() }
         renderItem={({item}) => {
           return (
-          <Token 
-              onPress={ () => onTokenPress(item) }
+          <MarketToken
               item={item}
             />)
         }}
   >
   </FlatList>
-)
+    )}
+}
 
-export default TokenList
+export default connect(mapStateToProps, null)(TokenList);
+
+// export default TokenList

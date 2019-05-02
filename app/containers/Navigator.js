@@ -13,6 +13,7 @@ import Modal from './ModalContainer'
 import { View } from 'react-native'
 import { connect } from 'react-redux';
 import { fetchAuth, fetchLogout } from '../actions/apiActions'
+import Marketplace from './Marketplace'
 
 const mapDispatchToProps = dispatch => ({
   onLoginButtonPressed: (values) => {
@@ -71,7 +72,10 @@ class Navigator extends React.Component {
                 title="Wallet"
                 />
               <Scene key="Obtainer" component={Placeholder} title="Obtainer"/>
-              <Scene key="Market" component={Placeholder} title="Market"/>
+              <Scene key="Market" 
+                component={Marketplace} 
+                // initial={true} 
+                title="Market"/>
               <Scene key="Settings" component={Settings} title="Settings"/>
             </Tabs>
           </Router>
