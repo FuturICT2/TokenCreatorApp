@@ -8,7 +8,11 @@ import styles from '../styles/Styles'
 import Reactotron from 'reactotron-react-native'
 import { connect } from 'react-redux';
 
-const mapStateToProps = state => state.user
+const mapStateToProps = state => {
+  return ({
+    user: state.user,
+    refreshing: false,
+})}
 class TokenList extends React.Component {
 
   constructor(props) {
@@ -16,17 +20,16 @@ class TokenList extends React.Component {
   }
   
   render() {
-    var refreshing = false
     return(
   <FlatList
         style={styles.list}
         showsVerticalScrollIndicator={false}
-        data={this.props.serverTokens}
+        data={this.props.user.serverTokens}
         // extraData={this.props}
         removeClippedSubviews={false}
         // Sort out keyExctractor
         keyExtractor={(item, index) => index+item.tokenName}
-        refreshing={refreshing}
+        refreshing={this.props.refreshing }
         onRefresh={ () => this.props.refresh() }
         renderItem={({item}) => {
           return (

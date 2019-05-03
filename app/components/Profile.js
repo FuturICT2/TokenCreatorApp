@@ -9,7 +9,7 @@ import {
 } from 'react-native-ui-kitten';
 import styles from '../styles/Styles'
 
-let Profile = ({ user, logout }) => (
+let Profile = ({ profile, logout }) => (
     <ScrollView style={styles.container}>
       <View style={styles.section}>
         <View style={[styles.row, styles.heading]}>
@@ -18,19 +18,19 @@ let Profile = ({ user, logout }) => (
         <View style={styles.row}>
           <View style={styles.rowInfo}>
             <RkText rkType='header6'>Email</RkText>
-            <RkText>{ user.profile.email }</RkText>
+            <RkText>{ profile.email }</RkText>
           </View>
         </View>
         <View style={styles.row}>
           <View style={styles.rowInfo}>
             <RkText rkType='header6'>name</RkText>
-            <RkText>{ user.profile.name }</RkText>
+            <RkText>{ profile.name }</RkText>
           </View>
         </View>
         <View style={styles.row}>
           <View>
             <RkText rkType='header6'>Ethereum address</RkText>
-            <RkText>{ user.profile.ethereumAddress }</RkText>
+            <RkText>{ profile.ethereumAddress }</RkText>
           </View>
         </View>
       </View>

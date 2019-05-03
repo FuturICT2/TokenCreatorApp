@@ -25,7 +25,10 @@ const mapDispatchToProps = dispatch => ({
  })
 
 const mapStateToProps = state => {
-  return {user: state.user}
+  return {
+    profile: state.user.profile,
+    isLoggedIn: state.user.isLoggedIn
+  }
 }
 class Navigator extends React.Component {
   
@@ -44,9 +47,8 @@ class Navigator extends React.Component {
               <Scene key="Account">
                 <Scene 
                   onLoginButtonPressed={ (values) => this.props.onLoginButtonPressed(values)}
-                  user={ this.props.user }
                   key='Login'
-                  on={this.props.user.profile}
+                  on={this.props.profile}
                   component={Login} 
                   title='Login'/>
                 <Scene 
@@ -56,9 +58,9 @@ class Navigator extends React.Component {
                 <Scene 
                   key='Profile' 
                   component={Profile} 
-                  user={ this.props.user } 
+                  profile={ this.props.profile } 
                   logout={() => this.props.onLogoutButtonPressed()}
-                  initial={this.props.user.isLoggedIn}
+                  initial={this.props.isLoggedIn}
                   title='Profile'/>
               </Scene>
               <Scene 
