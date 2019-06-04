@@ -44,8 +44,8 @@ class ModalContainer extends React.Component {
 const mapDispatchToProps = dispatch => ({ 
   hideModal: () => dispatch(hideModal()),
   onAction: (action) => {
-    dispatch(action)
     dispatch(hideModal())
+    dispatch(action)
   }
  })
 

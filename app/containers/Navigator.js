@@ -76,7 +76,7 @@ class Navigator extends React.Component {
               <Scene key="Obtainer" component={Placeholder} title="Obtainer"/>
               <Scene key="Market" 
                 component={Marketplace} 
-                // initial={true} 
+                initial={true} 
                 title="Market"/>
               <Scene key="Settings" component={Settings} title="Settings"/>
             </Tabs>

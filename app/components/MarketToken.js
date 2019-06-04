@@ -1,15 +1,11 @@
 import React from 'react';
 import {
   View,
-  Text,
-  TouchableOpacity,
 } from 'react-native';
 import {
   RkText,
   RkCard,
 } from 'react-native-ui-kitten';
-import { LinearGradient } from 'expo';
-import { MaterialCommunityIcons } from '@expo/vector-icons';
 import Reactotron from 'reactotron-react-native'
 import styles from '../styles/Styles'
 

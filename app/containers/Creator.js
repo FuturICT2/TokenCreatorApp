@@ -11,16 +11,36 @@ import {Input} from '../components/Input';
 import styles from '../styles/Styles'
 
 const mapDispatchToProps = dispatch => ({
-  addToken: (values) => {
-    dispatch(addToken(values))
+  // addToken: (values) => {
+  //   // dispatch(addToken(values))
+  //   dispatch(fetchCreateToken(values))
+  //   dispatch(showModal({
+  //     modalProps: {
+  //       title: 'Token created',
+  //       message: "Check wallet tab below to find newly created token",
+  //     }, 
+  //     modalType: 'info'
+  //   }))
+  // },
+  confirmAddToken: (token) =>{
     dispatch(showModal({
       modalProps: {
-        title: 'Token created',
-        message: "Check wallet tab below to find newly created token",
-      }, 
-      modalType: 'info'
+        modalIsOpen: true,
+        title: 'Add Token',
+        message: "Are you sure you would like to add this token?",
+        action: () => {
+          dispatch(fetchCreateToken(token))
+          dispatch(showModal({
+            modalProps: {
+              title: 'Token created',
+              message: "Check wallet tab below to find newly created token",
+            }, 
+            modalType: 'info'
+          }))
+        },
+      },
+      modalType: "confirm"
     }))
-    dispatch(fetchCreateToken(values))
   }
  })
 
@@ -53,7 +73,7 @@ class Creator extends React.Component {
             //   decimals: null,
             //   genesisSupply: null
             // }}
-            onSubmit={(values, actions) => this.props.addToken(values)}
+            onSubmit={(values, actions) => this.props.confirmAddToken(values)}
             validationSchema={Yup.object().shape({
               name: Yup.string()
                 .required(),

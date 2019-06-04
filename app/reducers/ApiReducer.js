@@ -18,6 +18,23 @@ function login(data, state){
   }
 }
 
+function buildBalances(state, data){
+  res = []
+  Reactotron.log("serverTokens", state.serverTokens)
+  Reactotron.log("data", data)
+  data.forEach( (token) => {
+    Reactotron.log("looking for id", token.TokenID)
+    const found = state.serverTokens.find( 
+      (serverToken) => token.TokenID == serverToken.ID)
+    Reactotron.log("found", found)
+    
+    found.balance = token.Balance
+    res.push(found)
+  })
+  Reactotron.log("res", res)
+  return res
+}
+
 export default (state = initialState, action ) => {
   switch (action.type){
     case ActionTypes.RECEIVE_AUTH:
@@ -32,6 +49,13 @@ export default (state = initialState, action ) => {
     case ActionTypes.RECEIVE_TOKENS:
       Reactotron.log('receive tokens', action)
       return {...state, serverTokens: action.response} 
+    case ActionTypes.RECEIVE_BALANCES:
+        Reactotron.log('receive balance', action)
+        const balances = buildBalances(state, action.response.Entries)
+        return {
+          ...state, 
+          balances
+        } 
     default:
       return state
   }

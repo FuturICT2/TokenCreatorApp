@@ -6,7 +6,7 @@ import Token from './Token'
 import styles from '../styles/Styles'
 
 
-const WalletList = ({ tokens, onTokenPress }) => (
+const WalletList = ({ tokens, refreshing, refresh }) => (
   <FlatList
         style={styles.list}
         showsVerticalScrollIndicator={false}
@@ -15,10 +15,12 @@ const WalletList = ({ tokens, onTokenPress }) => (
         removeClippedSubviews={false}
         // Sort out keyExctractor
         keyExtractor={(item, index) => index+item.tokenName}
+        refreshing={refreshing }
+        onRefresh={ () => refresh() }
         renderItem={({item}) => {
           return (
           <Token 
-              onPress={ () => onTokenPress(item) }
+              // onPress={ () => onTokenPress(item) }
               item={item}
             />)
         }}

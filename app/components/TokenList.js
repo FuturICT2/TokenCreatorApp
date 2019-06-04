@@ -2,7 +2,6 @@ import React from 'react'
 import MarketToken from './MarketToken'
   import {
     FlatList,
-    RefreshControl
   } from 'react-native';
 import styles from '../styles/Styles'
 import Reactotron from 'reactotron-react-native'

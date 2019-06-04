@@ -55,6 +55,14 @@ export function receiveTokens(response){
   }
 }
 
+export function receiveBalances(response){
+  return{
+    type: ActionTypes.RECEIVE_BALANCES,
+    response,
+    receivedAt: Date.now()
+  }
+}
+
 export function receiveCreateTokens(response){
   return{
     type: ActionTypes.RECEIVE_CREATE_TOKENS,
@@ -163,6 +171,21 @@ export function fetchTokens(){
         credentials: 'same-origin',
       })
       .then( response => handleResponse(response, dispatch, receiveTokens) )
+    }
+}
+
+export function fetchBalances(){
+
+  return function(dispatch) {
+    // dispatch(requestSignup())
+    return fetch( 'http://' + host + ':8181/wapi/balances', {
+        method: 'GET',
+        headers: {
+          Accept: '*/*',
+        },
+        credentials: 'same-origin',
+      })
+      .then( response => handleResponse(response, dispatch, receiveBalances) )
     }
 }
 

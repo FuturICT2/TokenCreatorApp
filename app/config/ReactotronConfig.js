@@ -1,6 +1,6 @@
 import Reactotron, { asyncStorage } from 'reactotron-react-native'
 
-export const host = "172.20.10.3"
+export const host = "192.168.8.105"
 
 Reactotron
   .configure({host: host}) // controls connection & communication settings

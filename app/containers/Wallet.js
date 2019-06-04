@@ -4,24 +4,21 @@ import { connect } from 'react-redux';
 import { deleteToken } from '../actions/TokenActions';
 import TokenList from '../components/WalletList'
 import { showModal } from '../actions/modalActions'
+import { fetchBalances, fetchTokens } from '../actions/apiActions'
 
 const mapStateToProps = state => {
   return {
-    tokens: state.tokens,
+    tokens: state.user.balances,
+    refreshing: false
   }
 }
 
 const mapDispatchToProps = dispatch => {
   return {
-    onTokenPress: (token) => dispatch(showModal({
-      modalProps: {
-        modalIsOpen: true,
-        title: 'Delete Token',
-        message: "Are you sure you would like to delete this token?",
-        action: deleteToken(token),
-      },
-      modalType: "confirm"
-    }))
+    refresh: async () => {
+      await dispatch(fetchTokens())
+      dispatch(fetchBalances()) 
+    }
   }
 }
 

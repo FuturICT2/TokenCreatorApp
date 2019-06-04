@@ -30,22 +30,22 @@ let Token = ({ onPress, item }) => {
             end={{ x: 1, y: 0 }}
             style={styles.background}>
             <View rkCardHeader>
-              <RkText rkType='header4 inverseColor'>max. supply: {item.max_supply}</RkText>
+              <RkText rkType='header4 inverseColor'>NAME: {item.Name}</RkText>
               <MaterialCommunityIcons name={icon} size={40} color="white" />
             </View>
             <View rkCardContent>
               <View style={styles.cardNoContainer}>
-                <RkText style={styles.cardNo} rkType='header2 inverseColor'>{item.tokenName}</RkText>
+                <RkText style={styles.cardNo} rkType='header2 inverseColor'>Description: {item.Description}</RkText>
               </View>
               <RkText style={styles.date} rkType='header6 inverseColor'>{item.date}</RkText>
             </View>
             <View rkCardFooter>
               <View>
-                <RkText rkType='header4 inverseColor'>{item.tokenSymbol.toUpperCase()}</RkText>
+                <RkText rkType='header4 inverseColor'>{item.Symbol.toUpperCase()}</RkText>
                 <RkText rkType='header6 inverseColor'>local</RkText>
               </View>
               <RkText
-                rkType='header2 inverseColor'>{item.tokenSymbol.toUpperCase()} 1.4002 </RkText>
+                rkType='header2 inverseColor'>{item.Symbol.toUpperCase()} {item.balance} </RkText>
             </View>
           </LinearGradient>
         </TouchableOpacity>
