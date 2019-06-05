@@ -13,8 +13,7 @@ const WalletList = ({ tokens, refreshing, refresh }) => (
         data={tokens}
         extraData={tokens}
         removeClippedSubviews={false}
-        // Sort out keyExctractor
-        keyExtractor={(item, index) => index+item.tokenName}
+        keyExtractor={(item, index) => index}        
         refreshing={refreshing }
         onRefresh={ () => refresh() }
         renderItem={({item}) => {

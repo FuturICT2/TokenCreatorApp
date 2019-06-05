@@ -26,8 +26,7 @@ class TokenList extends React.Component {
         data={this.props.user.serverTokens}
         // extraData={this.props}
         removeClippedSubviews={false}
-        // Sort out keyExctractor
-        keyExtractor={(item, index) => index+item.tokenName}
+        keyExtractor={(item, index) => index}
         refreshing={this.props.refreshing }
         onRefresh={ () => this.props.refresh() }
         renderItem={({item}) => {
