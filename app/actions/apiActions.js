@@ -1,8 +1,10 @@
 import ActionTypes from '../constants/ActionTypes';
-import { host } from '../config/ReactotronConfig'
 import Reactotron from 'reactotron-react-native';
 import { showModal } from '../actions/modalActions'
-import {store} from '../config/configureStore'
+import { store } from '../config/configureStore'
+// import { reactotronRedux } from 'reactotron-redux'
+
+getHost = () => store.getState().settings.host
 
 export function requestAuth(credentials){
   return {
@@ -22,6 +24,7 @@ export function receiveLogout(response){
 export function requestLogout(){
   return {
     type: ActionTypes.REQUEST_LOGOUT,
+    receivedAt: Date.now()
   }
 }
 
@@ -75,8 +78,9 @@ export function fetchAuth(credentials){
 
   return function(dispatch) {
     dispatch(requestAuth(credentials))
-
-    return fetch( 'http://' + host + ':8181/wapi/login', {
+    let url = 'http://' + getHost() + ':8181/wapi/login'
+    Reactotron.log("url", url, credentials)
+    return fetch( url, {
         method: 'POST',
         headers: {
           Accept: 'application/json',
@@ -95,8 +99,7 @@ export function fetchLogout(){
 
   return function(dispatch) {
     dispatch(requestLogout())
-
-    return fetch( 'http://' + host + ':8181/wapi/logout', {
+    return fetch( 'http://' + getHost() + ':8181/wapi/logout', {
         method: 'POST',
         headers: {
           Accept: 'application/json',
@@ -121,7 +124,7 @@ export function fetchSignup(values){
 
   return function(dispatch) {
     dispatch(requestSignup())
-    return fetch( 'http://' + host + ':8181/wapi/register', {
+    return fetch( 'http://' + getHost() + ':8181/wapi/register', {
         method: 'POST',
         headers: {
           Accept: 'application/json',
@@ -135,6 +138,7 @@ export function fetchSignup(values){
 }
 
 function handleResponse( response, dispatch, callback){
+  Reactotron.log("response receieved")
   new Promise( (resolve) => {
     if( !response.ok ){
       throw response
@@ -160,10 +164,9 @@ function showError( error, dispatch ){
 
 
 export function fetchTokens(){
-
   return function(dispatch) {
     // dispatch(requestSignup())
-    return fetch( 'http://' + host + ':8181/wapi/assets', {
+    return fetch( 'http://' + getHost() + ':8181/wapi/assets', {
         method: 'GET',
         headers: {
           Accept: '*/*',
@@ -178,7 +181,7 @@ export function fetchBalances(){
 
   return function(dispatch) {
     // dispatch(requestSignup())
-    return fetch( 'http://' + host + ':8181/wapi/balances', {
+    return fetch( 'http://' + getHost() + ':8181/wapi/balances', {
         method: 'GET',
         headers: {
           Accept: '*/*',
@@ -193,7 +196,7 @@ export function fetchCreateToken(token){
 
   return function(dispatch) {
     // dispatch(requestSignup())
-    return fetch( 'http://' + host + ':8181/wapi/assets', {
+    return fetch( 'http://' + getHost() + ':8181/wapi/assets', {
         method: 'POST',
         headers: {
           Accept: 'application/json',

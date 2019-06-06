@@ -9,7 +9,8 @@ export class Input extends PureComponent {
     this.props.onChange(this.props.name, value)
   }
   _handleTouch = () => {
-    this.props.onTouch(this.props.name)
+    if (typeof this.props.onTouch == 'function')
+      this.props.onTouch(this.props.name)
   }
 
   render() {

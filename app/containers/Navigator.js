@@ -4,7 +4,7 @@ import Creator  from './Creator'
 import Wallet  from './Wallet'
 import Login from './Login'
 import Signup from './Signup'
-import { Settings } from '../Settings'
+import Settings from '../Settings'
 import { Placeholder } from '../components/Placeholder'
 import Profile from '../components/Profile';
 import Reactotron from 'reactotron-react-native'
@@ -13,6 +13,7 @@ import Modal from './ModalContainer'
 import { View } from 'react-native'
 import { connect } from 'react-redux';
 import { fetchAuth, fetchLogout } from '../actions/apiActions'
+import { updateSettings } from '../actions/settingsActions'
 import Marketplace from './Marketplace'
 
 const mapDispatchToProps = dispatch => ({
@@ -21,13 +22,18 @@ const mapDispatchToProps = dispatch => ({
   },
   onLogoutButtonPressed: () => {
     dispatch(fetchLogout())
+  },
+  onSaveSettingsButtonPressed: (values) => {
+    Reactotron.log("nav values", values)
+    dispatch(updateSettings(values))
   }
  })
 
 const mapStateToProps = state => {
   return {
     profile: state.user.profile,
-    isLoggedIn: state.user.isLoggedIn
+    isLoggedIn: state.user.isLoggedIn,
+    settings: state.settings
   }
 }
 class Navigator extends React.Component {
@@ -40,6 +46,7 @@ class Navigator extends React.Component {
   }
 
   render(){
+    Reactotron.log("navigator props:", this.props)
     return (
       <View style={styles.root}>
         <Router style={styles.root}>
@@ -76,9 +83,13 @@ class Navigator extends React.Component {
               <Scene key="Obtainer" component={Placeholder} title="Obtainer"/>
               <Scene key="Market" 
                 component={Marketplace} 
-                initial={true} 
                 title="Market"/>
-              <Scene key="Settings" component={Settings} title="Settings"/>
+              <Scene 
+                key="Settings" 
+                component={Settings} 
+                settings={this.props.settings}
+                save={ (values)  => this.props.onSaveSettingsButtonPressed(values)}
+                title="Settings"/>
             </Tabs>
           </Router>
           <Modal></Modal>

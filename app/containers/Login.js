@@ -23,7 +23,6 @@ export default class Login extends React.Component {
   }
   
   render() {
-    Reactotron.log("LOGIN", this.props)
     return (
       <RkAvoidKeyboard
         style={styles.screen}

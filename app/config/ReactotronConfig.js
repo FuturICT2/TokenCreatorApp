@@ -1,8 +1,16 @@
-import Reactotron, { asyncStorage } from 'reactotron-react-native'
+import Reactotron from 'reactotron-react-native'
+import { store } from './configureStore'
+// import { reactotronRedux } from 'reactotron-redux'
 
-export const host = "192.168.8.105"
+export const host = store.getState().settings.host
+// export const host = "192.168.8.105"
 
-Reactotron
+let reactotron = Reactotron
   .configure({host: host}) // controls connection & communication settings
-  .useReactNative(asyncStorage()) // add all built-in react native plugins
+  .useReactNative({
+    asyncStorage: false, // there are more options to the async storage.
+  }) // add all built-in react native plugins
+  // .use(reactotronRedux()) //  <- here i am!
   .connect() // let's connect!
+
+export default reactotron
