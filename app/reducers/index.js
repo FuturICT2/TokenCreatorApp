@@ -3,14 +3,12 @@ import tokenReducer from './TokenReducer'
 import modalReducer from './ModalReducer'
 import apiReducer from './ApiReducer'
 import settingsReducer from './SettingsReducer'
-import routerReducer from './RouterReducer' 
 
 const appReducer = combineReducers({
   tokens: tokenReducer,
   modal: modalReducer,
   user: apiReducer,
   settings: settingsReducer,
-  router: routerReducer
 });
 
 const rootReducer = (state, action) => {
