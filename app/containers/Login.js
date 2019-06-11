@@ -14,6 +14,7 @@ import {
 } from 'react-native-ui-kitten';
 import styles from '../styles/Styles'
 import Reactotron from 'reactotron-react-native';
+import {KeyboardAvoidingView} from 'react-native';
 
 
 export default class Login extends React.Component {
@@ -24,10 +25,9 @@ export default class Login extends React.Component {
   
   render() {
     return (
-      <RkAvoidKeyboard
+      <KeyboardAvoidingView
         style={styles.screen}
-        onStartShouldSetResponder={() => true}
-        onResponderRelease={() => Keyboard.dismiss()}>
+        behavior="padding" enabled>
         <View style={styles.header}>
           <Image style={styles.image} source={ require('../../assets/images/logo.png') } />  
           <RkText rkType='light h1'>Fin4</RkText>
@@ -61,7 +61,7 @@ export default class Login extends React.Component {
             </View>
           </View>
         </View>
-      </RkAvoidKeyboard>
+      </KeyboardAvoidingView>
     )
   }
 }
