@@ -205,6 +205,6 @@ export function fetchCreateToken(token){
         credentials: 'same-origin',
         body: JSON.stringify(token),
       })
-      .then( response => handleResponse(response, dispatch, receiveCreateToken) )
+      .then( response => handleResponse(response, dispatch, receiveCreateTokens) )
     }
 }

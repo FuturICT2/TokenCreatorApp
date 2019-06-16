@@ -65,7 +65,12 @@ class Creator extends React.Component {
               max_supply: '6',
               decimals: '4',
               genesisSupply: '3',
-              purpose:'It\'s for testing'
+              purpose:'It\'s for testing',
+              isBurnable: false,
+              isTransferable: true,
+              isMintable: true,
+              isCapped: false,
+              cap: '100'
             }}
             // name: '',
             //   symbol: '',
@@ -91,7 +96,21 @@ class Creator extends React.Component {
                 .min(1)
                 .required(),
               purpose: Yup.string()
-                .required()
+                .required(),
+              isBurnable: Yup.boolean()
+                .required(),
+              isTransferable: Yup.boolean()
+                .required(),
+              isMintable: Yup.boolean()
+                .required(),
+              isCapped: Yup.boolean()
+                .required(),
+              cap: Yup.number()
+                .min(1)
+                .when("isCapped", {
+                  is: true,
+                  then: Yup.number().required()
+                })
             })}
             render={ ({ values,
               handleSubmit,
@@ -155,6 +174,46 @@ class Creator extends React.Component {
                   onTouch={setFieldTouched}
                   name="purpose"
                   error={touched.purpose && errors.purpose}
+                />
+                <Input
+                  label="Burnable"
+                  value={values.isBurnable}
+                  onChange={setFieldValue}
+                  onTouch={setFieldTouched}
+                  name="isBurnable"
+                  error={touched.isBurnable && errors.isBurnable}
+                />
+                <Input
+                  label="Transferable"
+                  value={values.isTransferable}
+                  onChange={setFieldValue}
+                  onTouch={setFieldTouched}
+                  name="isTransferable"
+                  error={touched.isTransferable && errors.isTransferable}
+                />
+                 <Input
+                  label="Mintable"
+                  value={values.isMintable}
+                  onChange={setFieldValue}
+                  onTouch={setFieldTouched}
+                  name="isMintable"
+                  error={touched.isMintable && errors.isMintable}
+                />
+                <Input
+                  label="Capped"
+                  value={values.isCapped}
+                  onChange={setFieldValue}
+                  onTouch={setFieldTouched}
+                  name="isCapped"
+                  error={touched.isCapped && errors.isCapped}
+                />
+                <Input
+                  label="Cap"
+                  value={values.cap}
+                  onChange={setFieldValue}
+                  onTouch={setFieldTouched}
+                  name="cap"
+                  error={touched.cap && errors.cap}
                 />
               <Button
                 backgroundColor="Blue"
