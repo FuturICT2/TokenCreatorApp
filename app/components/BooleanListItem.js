@@ -1,7 +1,6 @@
 // https://whatdidilearn.info/2018/12/23/how-to-make-instagram-like-language-selector-in-react-native.html
 import React from 'react';
 import { StyleSheet, Text, View, TouchableOpacity } from 'react-native';
-// import Icon from 'react-native-vector-icons/Ionicons';
 import Icon from 'react-native-vector-icons/Ionicons';
 
 

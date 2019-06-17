@@ -10,11 +10,13 @@ import Profile from '../components/Profile';
 import Reactotron from 'reactotron-react-native'
 import styles from '../styles/Styles'
 import Modal from './ModalContainer'
-import { View } from 'react-native'
+import { View, Text } from 'react-native'
 import { connect } from 'react-redux';
 import { fetchAuth, fetchLogout } from '../actions/apiActions'
 import { updateSettings } from '../actions/settingsActions'
 import Marketplace from './Marketplace'
+import Icon from 'react-native-vector-icons/Ionicons';
+
 
 const mapDispatchToProps = dispatch => ({
   onLoginButtonPressed: (values) => {
@@ -51,7 +53,7 @@ class Navigator extends React.Component {
       <View style={styles.root}>
         <Router style={styles.root}>
             <Tabs key="root">
-              <Scene key="Account">
+              <Scene key="Account" title="Account" icon={TabIcon}>
                 <Scene 
                   onLoginButtonPressed={ (values) => this.props.onLoginButtonPressed(values)}
                   key='Login'
@@ -74,20 +76,24 @@ class Navigator extends React.Component {
                 key="Creator" 
                 component={Creator} 
                 title="Creator" 
+                icon={TabIcon}
                 />
               <Scene 
                 key="Wallet" 
                 component={Wallet}
+                icon={TabIcon}
                 title="Wallet"
                 />
-              <Scene key="Obtainer" component={Placeholder} title="Obtainer"/>
+              {/* <Scene key="Obtainer" component={Placeholder} title="Obtainer"/> */}
               <Scene key="Market" 
                 component={Marketplace} 
+                icon={TabIcon}
                 title="Market"/>
               <Scene 
                 key="Settings" 
                 component={Settings} 
                 settings={this.props.settings}
+                icon={TabIcon}
                 save={ (values)  => this.props.onSaveSettingsButtonPressed(values)}
                 title="Settings"/>
             </Tabs>
@@ -97,5 +103,39 @@ class Navigator extends React.Component {
     )
   }
 }
+
+const TabIcon = ({ title, focused }) => {
+  let icon;
+  switch(title){
+    case 'Account':
+      icon = "ios-contact"
+      break
+    case 'Creator':
+      icon = "ios-rocket"
+      break
+    case 'Wallet':
+      icon = "ios-wallet"
+      break
+    case 'Market':
+      icon = "ios-planet"
+      break
+    // case 'Settings':
+    //     icon = "cog"
+    //     break
+    case 'Settings':
+      icon = "ios-cog"
+      break
+                                                 
+  }
+  
+  return (
+    <Icon
+    name={icon}
+    color={focused ? '#0A84FF':'#AAA'}
+    size={25}
+  />
+  );
+}
+
 
  export default connect(mapStateToProps, mapDispatchToProps)(Navigator);
