@@ -29,7 +29,7 @@ export default class Login extends React.Component {
         style={styles.screen}
         behavior="padding" enabled>
         <View style={styles.header}>
-          <Image style={styles.image} source={ require('../../assets/images/logo.png') } />  
+          <Image style={styles.image} source={ require('../../assets/images/futurict2.png') } />  
           <RkText rkType='light h1'>Fin4</RkText>
           <RkText rkType='logo h0'>FuturICT2</RkText>
         </View>
