@@ -1,27 +1,15 @@
 import React from 'react';
-import { View, ScrollView, Button } from 'react-native';
+import { KeyboardAvoidingView, ScrollView, Button } from 'react-native';
 
 import { Formik } from 'formik';
 import * as Yup from 'yup';
 import { connect } from 'react-redux';
-import { addToken } from '../actions/TokenActions'
 import { showModal } from '../actions/modalActions'
 import { fetchCreateToken } from '../actions/apiActions'
 import {Input} from '../components/Input';
 import styles from '../styles/Styles'
 
 const mapDispatchToProps = dispatch => ({
-  // addToken: (values) => {
-  //   // dispatch(addToken(values))
-  //   dispatch(fetchCreateToken(values))
-  //   dispatch(showModal({
-  //     modalProps: {
-  //       title: 'Token created',
-  //       message: "Check wallet tab below to find newly created token",
-  //     }, 
-  //     modalType: 'info'
-  //   }))
-  // },
   confirmAddToken: (token) =>{
     dispatch(showModal({
       modalProps: {
@@ -55,8 +43,9 @@ class Creator extends React.Component {
 
   render(){
     return(
-      <View style={styles.root}>
-        <ScrollView style={styles.list}>
+      <KeyboardAvoidingView style={styles.root} 
+        behavior="padding" enabled>
+        <ScrollView >
           <Formik
             style={styles.form}
             initialValues={{
@@ -70,7 +59,7 @@ class Creator extends React.Component {
               isTransferable: true,
               isMintable: true,
               isCapped: false,
-              cap: '100'
+              cap: '0'
             }}
             // name: '',
             //   symbol: '',
@@ -106,10 +95,9 @@ class Creator extends React.Component {
               isCapped: Yup.boolean()
                 .required(),
               cap: Yup.number()
-                .min(1)
                 .when("isCapped", {
                   is: true,
-                  then: Yup.number().required()
+                  then: Yup.number().min(1).required()
                 })
             })}
             render={ ({ values,
@@ -181,6 +169,7 @@ class Creator extends React.Component {
                   onChange={setFieldValue}
                   onTouch={setFieldTouched}
                   name="isBurnable"
+                  description="Whether the token can be destroyed"
                   error={touched.isBurnable && errors.isBurnable}
                 />
                 <Input
@@ -189,6 +178,7 @@ class Creator extends React.Component {
                   onChange={setFieldValue}
                   onTouch={setFieldTouched}
                   name="isTransferable"
+                  description="Whether the token can be transferred between accounts"
                   error={touched.isTransferable && errors.isTransferable}
                 />
                  <Input
@@ -197,6 +187,7 @@ class Creator extends React.Component {
                   onChange={setFieldValue}
                   onTouch={setFieldTouched}
                   name="isMintable"
+                  description="Whether tokens can be created on demand"
                   error={touched.isMintable && errors.isMintable}
                 />
                 <Input
@@ -205,21 +196,23 @@ class Creator extends React.Component {
                   onChange={setFieldValue}
                   onTouch={setFieldTouched}
                   name="isCapped"
+                  description="Whether there is a limit to the amount of tokens"
                   error={touched.isCapped && errors.isCapped}
                 />
-                <Input
+                { values.isCapped &&
+                  <Input
                   label="Cap"
                   value={values.cap}
                   onChange={setFieldValue}
                   onTouch={setFieldTouched}
                   name="cap"
                   error={touched.cap && errors.cap}
-                />
+                  />}
               <Button
                 backgroundColor="Blue"
                 style={styles.button}
                 onPress={handleSubmit}
-                // disabled={!isValid || isSubmitting }
+                // disabled={!isValid }
                 title="Submit"
                 loading={isSubmitting}
                 />
@@ -227,7 +220,7 @@ class Creator extends React.Component {
             )}
           />
         </ScrollView>
-      </View>
+      </KeyboardAvoidingView>
     )}
 }
 

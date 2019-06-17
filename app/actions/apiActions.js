@@ -193,7 +193,8 @@ export function fetchBalances(){
 }
 
 export function fetchCreateToken(token){
-
+  if (!token.isCapped)
+    token.cap = 0
   return function(dispatch) {
     // dispatch(requestSignup())
     return fetch( 'http://' + getHost() + ':8181/wapi/assets', {

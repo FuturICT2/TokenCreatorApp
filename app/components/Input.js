@@ -2,6 +2,7 @@ import React, {PureComponent} from 'react';
 import { View, Text, Switch } from 'react-native';
 import { RkTextInput } from 'react-native-ui-kitten';
 import styles from '../styles/Styles'
+import BooleanListItem from './BooleanListItem';
 
 export class Input extends PureComponent {
 
@@ -17,19 +18,13 @@ export class Input extends PureComponent {
     const { label, error, ...rest } = this.props;
     if (typeof this.props.value == "boolean")
       return (
-        <View style={styles.root}>
-          <View></View>
-          <Text>{this.props.label}</Text>
-          <Switch
-            style={styles.row}
-            placeholder={label}
-            label={label}
-            onValueChange={this._handleChange}
-            onBlur={this._handleTouch}
-            rkType='right clear'
-            { ...rest } />
-          {error && <Text style={styles.error}>{error}</Text>}
-        </View>
+        <BooleanListItem
+          key={label}
+          isActive={this.props.value}
+          label={label}
+          onChange={ () => this._handleChange(!this.props.value)}
+          description={this.props.description}
+        />
       );
     else
       return (

@@ -33,6 +33,7 @@ export default class Root extends React.Component {
       'Roboto-Medium': require('./assets/fonts/Roboto-Medium.ttf'),
       'Roboto-Regular': require('./assets/fonts/Roboto-Regular.ttf'),
       'Roboto-Light': require('./assets/fonts/Roboto-Light.ttf'),
+      'Ionicons': require('react-native-vector-icons/Fonts/Ionicons.ttf'),
     });
     this.setState({ isLoaded: true });
   }
