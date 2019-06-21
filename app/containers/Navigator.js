@@ -4,7 +4,7 @@ import Creator  from './Creator'
 import Wallet  from './Wallet'
 import Login from './Login'
 import Signup from './Signup'
-import Settings from '../Settings'
+import Settings from './Settings'
 import { Placeholder } from '../components/Placeholder'
 import Profile from '../components/Profile';
 import Reactotron from 'reactotron-react-native'

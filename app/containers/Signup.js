@@ -68,17 +68,11 @@ class Signup extends React.Component {
             <Formik
               style={styles.form}
               initialValues={{
-                name: 'Prof Snape',
-                email: 'snape@snapecoin.com',
-                password: 'hodlee',
-                confirmPassword: 'hodlee'
+                name: 'John Brown',
+                email: 'john@brown.com',
+                password: '123pass',
+                confirmPassword: '123pass'
               }}
-              // tokenName: '',
-              //   tokenSymbol: '',
-              //   max_supply: null,
-              //   decimals: null,
-              //   genesisSupply: null
-              // }}
               onSubmit={(values, actions) => this.props.signup(values)}
               validationSchema={Yup.object().shape({
                 name: Yup.string()

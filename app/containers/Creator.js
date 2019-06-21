@@ -21,7 +21,7 @@ const mapDispatchToProps = dispatch => ({
           dispatch(showModal({
             modalProps: {
               title: 'Token created',
-              message: "Check wallet tab below to find newly created token",
+              message: "Check market tab below to find newly created token",
             }, 
             modalType: 'info'
           }))
@@ -49,12 +49,9 @@ class Creator extends React.Component {
           <Formik
             style={styles.form}
             initialValues={{
-              name: 'test',
-              symbol: 'TST',
-              max_supply: '6',
-              decimals: '4',
-              genesisSupply: '3',
-              purpose:'It\'s for testing',
+              name: 'TreeCoin',
+              symbol: 'TRC',
+              purpose:'Plant a tree, earn a token',
               isBurnable: false,
               isTransferable: true,
               isMintable: true,
@@ -63,9 +60,6 @@ class Creator extends React.Component {
             }}
             // name: '',
             //   symbol: '',
-            //   max_supply: null,
-            //   decimals: null,
-            //   genesisSupply: null
             // }}
             onSubmit={(values, actions) => this.props.confirmAddToken(values)}
             validationSchema={Yup.object().shape({
@@ -74,15 +68,6 @@ class Creator extends React.Component {
               symbol: Yup.string()
                 .min(3)
                 .max(3)
-                .required(),
-              max_supply: Yup.number()
-                .min(1)
-                .required(),
-              decimals: Yup.number()
-                .min(1)
-                .required(),
-              genesisSupply: Yup.number()
-                .min(1)
                 .required(),
               purpose: Yup.string()
                 .required(),
@@ -126,33 +111,6 @@ class Creator extends React.Component {
                   onTouch={setFieldTouched}
                   name="symbol"
                   error={touched.symbol && errors.symbol}
-                />
-                <Input
-                  label="Max. Supply"
-                  autoCapitalize="none"
-                  value={values.max_supply}
-                  onChange={setFieldValue}
-                  onTouch={setFieldTouched}
-                  name="max_supply"
-                  error={touched.max_supply && errors.max_supply}
-                />
-                <Input
-                  label="Decimals"
-                  autoCapitalize="none"
-                  value={values.decimals}
-                  onChange={setFieldValue}
-                  onTouch={setFieldTouched}
-                  name="decimals"
-                  error={touched.decimals && errors.decimals}
-                />
-                <Input
-                  label="Genesis Supply"
-                  autoCapitalize="none"
-                  value={values.genesisSupply}
-                  onChange={setFieldValue}
-                  onTouch={setFieldTouched}
-                  name="genesisSupply"
-                  error={touched.genesisSupply && errors.genesisSupply}
                 />
                 <Input
                   label="Purpose"

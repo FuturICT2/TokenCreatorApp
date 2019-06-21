@@ -1,11 +1,11 @@
 import React from 'react';
 
 import { View, ScrollView, Button } from 'react-native';
-import styles from './styles/Styles'
+import styles from '../styles/Styles'
 import Reactotron from 'reactotron-react-native';
 
 
-import {Input} from './components/Input';
+import {Input} from '../components/Input';
 
 export default class Settings extends React.Component {
 
