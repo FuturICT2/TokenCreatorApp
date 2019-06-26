@@ -1,6 +1,5 @@
 import ActionTypes from '../constants/ActionTypes';
 import Reactotron from 'reactotron-react-native';
-import { Actions } from 'react-native-router-flux';
 
 const initialState = {
   isFetching: false,
@@ -55,7 +54,7 @@ export default (state = initialState, action ) => {
         return {
           ...state, 
           balances
-        } 
+        }
     default:
       return state
   }

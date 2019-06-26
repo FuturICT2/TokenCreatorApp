@@ -193,18 +193,22 @@ export function fetchBalances(){
 }
 
 export function fetchCreateToken(token){
+  let serverToken = {...token}
   if (!token.isCapped)
-    token.cap = 0
+    serverToken.cap = 0
+    serverToken.decimals = parseInt(token.decimals)
+    serverToken.cap = parseInt(token.cap)
+
   return function(dispatch) {
     // dispatch(requestSignup())
-    return fetch( 'http://' + getHost() + ':8181/wapi/assets', {
+    return fetch( 'http://' + getHost() + ':8181/wapi/ap-assets', {
         method: 'POST',
         headers: {
           Accept: 'application/json',
           'Content-Type': 'application/json',
         },
         credentials: 'same-origin',
-        body: JSON.stringify(token),
+        body: JSON.stringify(serverToken),
       })
       .then( response => handleResponse(response, dispatch, receiveCreateTokens) )
     }

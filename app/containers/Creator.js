@@ -51,6 +51,7 @@ class Creator extends React.Component {
             initialValues={{
               name: 'TreeCoin',
               symbol: 'TRC',
+              decimals: '0',
               purpose:'Plant a tree, earn a token',
               isBurnable: false,
               isTransferable: true,
@@ -68,6 +69,10 @@ class Creator extends React.Component {
               symbol: Yup.string()
                 .min(3)
                 .max(3)
+                .required(),
+              decimals: Yup.number()
+                .min(0)
+                .max(255)
                 .required(),
               purpose: Yup.string()
                 .required(),
@@ -111,6 +116,15 @@ class Creator extends React.Component {
                   onTouch={setFieldTouched}
                   name="symbol"
                   error={touched.symbol && errors.symbol}
+                />
+                <Input
+                  label="Decimals"
+                  autoCapitalize="none"
+                  value={values.decimals}
+                  onChange={setFieldValue}
+                  onTouch={setFieldTouched}
+                  name="decimals"
+                  error={touched.decimals && errors.decimals}
                 />
                 <Input
                   label="Purpose"
