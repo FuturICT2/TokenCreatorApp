@@ -28,10 +28,7 @@ On first opening the app, the user will be greeted with the a navigation bar wit
 
 Any errors will be relayed on a prompt.
 
-![Sign up view](./screenshots/img4.png)
-![Sign in view](./screenshots/img5.png)
-![Profile view](./screenshots/img6.png)
-![Information prompt](./screenshots/img3.png)
+![Sign up view](./screenshots/img4.png) ![Sign in view](./screenshots/img5.png) ![Profile view](./screenshots/img6.png) ![Information prompt](./screenshots/img3.png)
 
 #### Creator View
 Next to the Login View we have the Creator view where the user can create tokens on the Fin4 server. The user will be able to choose:
@@ -60,20 +57,21 @@ All fields must be filled in, except for the cap if the token is uncapped. The t
 
 Once the user taps submit, A prompt will appear confirming the user wants to create the token. The user will be able to carry out the action by tapping OK, or abort the action by tapping cancel.
 
-![Creator view uncapped](./screenshots/img7.png)
-![Creator view capped](./screenshots/img8.png)
-![Confirmation prompt](./screenshots/img2.png)
+![Creator view uncapped](./screenshots/img7.png) ![Creator view capped](./screenshots/img8.png) ![Confirmation prompt](./screenshots/img2.png)
 
 #### Wallet view
 This view shows the tokens held by the user, and the balance. This view can be refreshed by pulling down the screen.
+
 ![Wallet view](./screenshots/img2.png)
 
 #### Market view
 This view shows the tokens available on the Fin4 server. This view can be refeshed by pulling down the screen.
+
 ![Market view refreshing](./screenshots/img9.png)
 
 #### Settings view
 The user can specify the URL or IP of the Fin4 server on this view.
+
 ![Settings view](./screenshots/img10.png)
 
 
