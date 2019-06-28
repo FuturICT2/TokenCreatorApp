@@ -76,9 +76,9 @@ The user can specify the URL or IP of the Fin4 server on this view.
 
 ## Adding functionality to the app
 Integrating a new ﬁeld to the form is extremely easy:
-1. In app/containers/Creator.js, add the name of the variable and give it a default value (under initialValue on line 52), and the necessary validation (under validationSchema on line 67) in the Formik component.
-2. Add the Input ﬁeld inside the React.Fragment component (between lines 102 and 182), making sure you respect other Input ﬁelds.
-3. If the value is a non-integer value, then nothing else needs to be done. If it is an integer, this value must be parsed to a string in app/actions/apiActions.js, under fetchCreateToken() on line 195. This must be done after the serverToken declaration (line 196), and before the return function (line 202). Eg. We want to add a variable called initialSupply, we’d write serverToken.initialSupply = parseInt(token.initialSupply) on line 201 of app/actions/apiActions.js. The reason it must be parsed ﬁrst is because the Fin4 server will return an error if numbers aren’t parsed as strings.
+1. In `app/containers/Creator.js`, add the name of the variable and give it a default value (under `initialValue` on line 52), and the necessary validation (under `validationSchema` on line 67) in the `Formik` component.
+2. Add the `Input` ﬁeld inside the `React.Fragment` component (between lines 102 and 182), making sure you respect other `Input` ﬁelds.
+3. If the value is a non-integer value, then nothing else needs to be done. If it is an integer, this value must be parsed to a string in `app/actions/apiActions.js`, under `fetchCreateToken()` on line 195. This must be done after the `serverToken` declaration (line 196), and before the `return` function (line 202). Eg. We want to add a variable called `initialSupply`, we’d write `serverToken.initialSupply = parseInt(token.initialSupply)` on line 201 of `app/actions/apiActions.js`. The reason it must be parsed ﬁrst is because the Fin4 server will return an error if numbers aren’t parsed as strings.
 
 ## About React Native and Redux
 
