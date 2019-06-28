@@ -74,7 +74,24 @@ The user can specify the URL or IP of the Fin4 server on this view.
 
 ![Settings view](./screenshots/img10.png)
 
+## About React Native and Redux
 
+In React and React Native, different components are conflated together into other components to make an app. The idea is that the smaller components, or presentational components, used by other bigger components are reusable. These bigger components are sometimes called smart components or containers. These will also host the business logic.
 
+There are two main types of state, internal component state, and application state. The internal component state will be unique to the component, and cannot be accessed by other components, unless passed as an input, known as a prop. The application state can be accessed by the entire application, and is explained in detail below.
 
+### SYSTEM ARCHITECTURE
 
+The structure of the app follows the [Flux principles](https://github.com/facebook/flux/tree/master/examples/flux-concepts). Flux is a pattern for a managing data-flow in an application, where data only travels in one direction. For this application, Redux has been used. There are 4 parts in the flux system: view, action, dispatcher and the store.
+
+#### The store
+The store is where the hierarchical data is held. This universal tree of data can be accessed from wherever in the application, and seeks to maintain consistent state throughout it. While this information can be accessed by any component, it must only be manipulated in response to an action. When the store changes, an event should be emitted to notify views connected to it, that they should update the information displayed (if applicable).
+
+####  The dispatcher
+The dispatcher will receive an action and make the appropriate changes to the store. In redux, there is no concept of a dispatcher [44]. Actions are dispatched and handled by the reducers. The reducers are in charge of manipulating the store according to the actions emitted [27]. This is not an appropriate place to have any logic as this would make debugging the application more cumbersome.
+
+#### Actions
+Actions define what functions are to be called to fulfil any command which may be carried out. These can be anything from logging into the application, to deleting an image from the profile. They can be both asynchronous or not. While asynchronous actions may have some logic to execute a request or query, it is encouraged that actions stay as minimal as possible, without manipulating the data.
+
+#### Views
+Views are in charge of both dispatching actions, and displaying data from the store. All data manipulation logic belongs here.
