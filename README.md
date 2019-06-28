@@ -74,6 +74,12 @@ The user can specify the URL or IP of the Fin4 server on this view.
 
 ![Settings view](./screenshots/img10.png)
 
+## Adding functionality to the app
+Integrating a new ﬁeld to the form is extremely easy:
+1. In app/containers/Creator.js, add the name of the variable and give it a default value (under initialValue on line 52), and the necessary validation (under validationSchema on line 67) in the Formik component.
+2. Add the Input ﬁeld inside the React.Fragment component (between lines 102 and 182), making sure you respect other Input ﬁelds.
+3. If the value is a non-integer value, then nothing else needs to be done. If it is an integer, this value must be parsed to a string in app/actions/apiActions.js, under fetchCreateToken() on line 195. This must be done after the serverToken declaration (line 196), and before the return function (line 202). Eg. We want to add a variable called initialSupply, we’d write serverToken.initialSupply = parseInt(token.initialSupply) on line 201 of app/actions/apiActions.js. The reason it must be parsed ﬁrst is because the Fin4 server will return an error if numbers aren’t parsed as strings.
+
 ## About React Native and Redux
 
 In React and React Native, different components are conflated together into other components to make an app. The idea is that the smaller components, or presentational components, used by other bigger components are reusable. These bigger components are sometimes called smart components or containers. These will also host the business logic.
@@ -88,7 +94,7 @@ The structure of the app follows the [Flux principles](https://github.com/facebo
 The store is where the hierarchical data is held. This universal tree of data can be accessed from wherever in the application, and seeks to maintain consistent state throughout it. While this information can be accessed by any component, it must only be manipulated in response to an action. When the store changes, an event should be emitted to notify views connected to it, that they should update the information displayed (if applicable).
 
 ####  The dispatcher
-The dispatcher will receive an action and make the appropriate changes to the store. In redux, there is no concept of a dispatcher [44]. Actions are dispatched and handled by the reducers. The reducers are in charge of manipulating the store according to the actions emitted [27]. This is not an appropriate place to have any logic as this would make debugging the application more cumbersome.
+The dispatcher will receive an action and make the appropriate changes to the store. In redux, there is no concept of a dispatcher. Actions are dispatched and handled by the reducers. The reducers are in charge of manipulating the store according to the actions emitted. This is not an appropriate place to have any logic as this would make debugging the application more cumbersome.
 
 #### Actions
 Actions define what functions are to be called to fulfil any command which may be carried out. These can be anything from logging into the application, to deleting an image from the profile. They can be both asynchronous or not. While asynchronous actions may have some logic to execute a request or query, it is encouraged that actions stay as minimal as possible, without manipulating the data.
