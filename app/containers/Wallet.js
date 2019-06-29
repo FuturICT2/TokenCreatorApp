@@ -1,9 +1,6 @@
 // adapted from https://github.com/akveo/kittenTricks/blob/master/app/screens/eCommerce/cards.js
-import Reactotron from 'reactotron-react-native';
 import { connect } from 'react-redux';
-import { deleteToken } from '../actions/TokenActions';
-import TokenList from '../components/WalletList'
-import { showModal } from '../actions/modalActions'
+import WalletList from '../components/WalletList'
 import { fetchBalances, fetchTokens } from '../actions/apiActions'
 
 const mapStateToProps = state => {
@@ -25,4 +22,4 @@ const mapDispatchToProps = dispatch => {
 export default connect(
   mapStateToProps,
   mapDispatchToProps
-)(TokenList)
+)(WalletList)
