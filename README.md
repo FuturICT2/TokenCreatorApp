@@ -2,6 +2,8 @@
 
 This repository contains a front-end of the Finance 4.0 developed in React Native for Android and iOS devices.
 
+It details the development of a software artefact which offers an easy interface for non-technical users to create tokens, using the framework, taxonomy and classification specified in Ballandies et. al [1].
+
 # Introduction
 
  Many communities lack the resources to create tokens, which is why it was decided that an easy interface to create versatile tokens should be made, so a smartphone app has been developed for Android and iOS. 
@@ -33,6 +35,8 @@ There is a test server running Fin4-core at www.finfour.net.
 
 If you would like to create your own server, please follow the documentationon [the fin4-core github page](https://github.com/FuturICT2/fin4-core).
 
+The user can use any running server by pointing the [host in settings](#settings-view) to the desired IP or URL.
+
 # How to use the app
 
 ## Modals
@@ -42,14 +46,20 @@ By handling the UI state with redux, the application state, one can trigger UI c
 - **Confirmation**: This modal has two buttons, one to confirm the user actually wants to do something, and the other to cancel that and not do anything. This modal is triggered when the user wants to delete a token-wallet. The user is asked for their confirmation before the token is actually deleted. 
 - **Information**: This modal has one button (OK) which doesn't do anything. These modals’ only function is to inform the user that something has (or has not) happened. This modal is used when there has been an error logging in or when something has happened in the application.
 
-![Information prompt](./screenshots/img3.png)  ![Confirmation prompt](./screenshots/img2.png)
+![Information prompt](./.readme-assets/screenshots/img3.png)  ![Confirmation prompt](./.readme-assets/screenshots/img2.png)
 
 ## Account Tab
-On first opening the app, the user will be greeted with the a navigation bar with 5 tabs open on the Account tab. From here, the Login view, the user will be able to either log into the server, or click the sign up button to register on the server, on th sign up view. Once logged in, the Account tab will show information on the user's profile, on the profile view. 
+On first opening the app, the user will be greeted with the a navigation bar with 5 tabs open on the Account tab. 
+
+If the user is logged in, the Proﬁle view will be shown, where they can see their information and log out from. 
+
+If the user is not logged in, the Log in view will be shown, where the user can log into the server from. From this view, the user can access the Sign up view by tapping the “Sign up now” button. 
+
+On the Sign up view, the user can sign up to the server. The password and conﬁrm password must match.
 
 Any errors will be relayed on a prompt.
 
-![Sign up view](./screenshots/img4.png) ![Sign in view](./screenshots/img5.png) ![Profile view](./screenshots/img6.png) ![Information prompt](./screenshots/img3.png)
+![Sign up view](./.readme-assets/screenshots/img4.png) ![Sign in view](./.readme-assets/screenshots/img5.png) ![Profile view](./.readme-assets/screenshots/img6.png) ![Information prompt](./.readme-assets/screenshots/img3.png)
 
 ## Creator View
 Next to the Login View we have the Creator view where the user can create tokens on the Fin4 server. The user will be able to choose:
@@ -78,54 +88,192 @@ All fields must be filled in, except for the cap if the token is uncapped. The t
 
 Once the user taps submit, A prompt will appear confirming the user wants to create the token. The user will be able to carry out the action by tapping OK, or abort the action by tapping cancel.
 
-![Creator view uncapped](./screenshots/img7.png) ![Creator view capped](./screenshots/img8.png) ![Confirmation prompt](./screenshots/img2.png)
+![Creator view uncapped](./.readme-assets/screenshots/img7.png) ![Creator view capped](./.readme-assets/screenshots/img8.png) ![Confirmation prompt](./.readme-assets/screenshots/img2.png)
 
 ## Wallet view
 This view shows the tokens held by the user, and the balance. This view can be refreshed by pulling down the screen.
 
-![Wallet view](./screenshots/img1.png)
+![Wallet view](./.readme-assets/screenshots/img1.png)
 
 ## Market view
 This view shows the tokens available on the Fin4 server. This view can be refeshed by pulling down the screen.
 
-![Market view refreshing](./screenshots/img9.png)
+![Market view refreshing](./.readme-assets/screenshots/img9.png)
 
 ## Settings view
 The user can specify the URL or IP of the Fin4 server on this view.
 
-![Settings view](./screenshots/img10.png)
+![Settings view](./.readme-assets/screenshots/img10.png)
+
+# Main technologies used in the app
+- The app was developed in React Native.
+- Expo simpliﬁed the simulation on iOS, and deployment.
+- Redux was used for state management.
+- React Native Router Flux was used for navigation.
+- Formik was used for the forms.
+- React Native UI Kittens was used for the user interface.
 
 # Adding functionality to the app
 Integrating a new ﬁeld to the form is extremely easy:
 1. In `app/containers/Creator.js`, add the name of the variable and give it a default value (under `initialValue` on line 52), and the necessary validation (under `validationSchema` on line 67) in the `Formik` component.
+```jsx
+// app/containers/Creator.js
+// [...]
+// LINE 46
+<KeyboardAvoidingView style={styles.root} 
+  behavior="padding" enabled>
+  <ScrollView >
+    <Formik
+      style={styles.form}
+      initialValues={{
+        name: 'TreeCoin',
+        symbol: 'TRC',
+        decimals: '0',
+        purpose:'Plant a tree, earn a token',
+        isBurnable: false,
+        isTransferable: true,
+        isMintable: true,
+        isCapped: false,
+        cap: '0'
+        // [EXAMPLE] ADD FIELD HERE
+        // EG. INITIAL SUPPLY
+        ,initialSupply: '100'
+        // Note that if it's a number, it will have to be in string format
+      }}
+      // name: '',
+      //   symbol: '',
+      // }}
+      onSubmit={(values, actions) => this.props.confirmAddToken(values)}
+      validationSchema={Yup.object().shape({
+        name: Yup.string()
+          .required(),
+        symbol: Yup.string()
+          .min(3)
+          .max(3)
+          .required(),
+        decimals: Yup.number()
+          .min(0)
+          .max(255)
+          .required(),
+        purpose: Yup.string()
+          .required(),
+        isBurnable: Yup.boolean()
+          .required(),
+        isTransferable: Yup.boolean()
+          .required(),
+        isMintable: Yup.boolean()
+          .required(),
+        isCapped: Yup.boolean()
+          .required(),
+        cap: Yup.number()
+          .when("isCapped", {
+            is: true,
+            then: Yup.number().min(1).required()
+        // [EXAMPLE] FOLLOWING THE INITIAL SUPPLY EXAMPLE
+        ,initialSupply: Yup.number()
+          .min(0) // negative initial supplies don't work...
+          .required() // if it isn't required, then not. 
+                      // see "cap" above for an interesting case
+          })
+      })}
+// [...]
+    />
+  </ScrollView>
+</KeyboardAvioidingView>
+```
 2. Add the `Input` ﬁeld inside the `React.Fragment` component (between lines 102 and 182), making sure you respect other `Input` ﬁelds.
+```jsx
+// app/containers/Creator.js
+// [...]
+// LINE 165
+<Input
+  label="Capped"
+  value={values.isCapped}
+  onChange={setFieldValue}
+  onTouch={setFieldTouched}
+  name="isCapped"
+  description="Whether there is a limit to the amount of tokens"
+  error={touched.isCapped && errors.isCapped}
+/>
+{ values.isCapped &&
+  <Input
+  label="Cap"
+  value={values.cap}
+  onChange={setFieldValue}
+  onTouch={setFieldTouched}
+  name="cap"
+  error={touched.cap && errors.cap}
+  />}
+// [EXAMPLE] AGAIN, WE WILL ADD THE INITIAL SUPPLY USE CASE
+<Input
+  label="Initial supply"
+  value={values.initialSupply}
+  onChange={setFieldValue}
+  onTouch={setFieldTouched}
+  name="initialSupply"  // name of the input, used for IDing
+  error={touched.initialSupply && errors.initialSupply} // this will hold whether the field has been touched yet, and if so AND there is a validation error, the error will jump
+/>
+
+<Button
+backgroundColor="Blue"
+style={styles.button}
+onPress={handleSubmit}
+// disabled={!isValid }
+title="Submit"
+loading={isSubmitting}
+/>
+// [...]
+```
 3. If the value is a non-integer value, then nothing else needs to be done. If it is an integer, this value must be parsed to a string in `app/actions/apiActions.js`, under `fetchCreateToken()` on line 195. This must be done after the `serverToken` declaration (line 196), and before the `return` function (line 202). Eg. We want to add a variable called `initialSupply`, we’d write `serverToken.initialSupply = parseInt(token.initialSupply)` on line 201 of `app/actions/apiActions.js`. The reason it must be parsed ﬁrst is because the Fin4 server will return an error if numbers aren’t parsed as strings.
+```js
+// app/actions/apiActions.js
+// [...]
+// LINE 195
+export function fetchCreateToken(token){
+  let serverToken = {...token}
+  if (!token.isCapped)
+    serverToken.cap = 0
+  serverToken.decimals = parseInt(token.decimals)
+  serverToken.cap = parseInt(token.cap)
+  // [EXAMPLE] INITIAL SUPPLY EXAMPLE 
+  // SINCE INITIAL SUPPLY IS AN INTEGER, IT MUST BE PARSE
+  serverToken.initialSupply = parseInt(token.initialSupply)
 
-# About React Native and Redux
- 
-The task proposed was to make a modern looking native app for Android. Having considered Flutter and Kotlin, a framework which could be tested on iOS was needed, so that meant Kotlin could not be used. React Native had more documentation and looked easier than Flutter, so it was decided to write the program in React Native. React Native is a framework for creating native apps for iOS, Android and other platforms using React and JavaScript.
+  return function(dispatch) {
+    // dispatch(requestSignup())
+    return fetch( 'http://' + getHost() + ':8181/wapi/ap-assets', {
+        method: 'POST',
+        headers: {
+          Accept: 'application/json',
+          'Content-Type': 'application/json',
+        },
+        credentials: 'same-origin',
+        body: JSON.stringify(serverToken),
+      })
+      .then( response => handleResponse(response, dispatch, receiveCreateTokens) )
+    }
+}
 
-In React and React Native, different components are conflated together into other components to make an app. The idea is that the smaller components, or presentational components (stored in `app/components`), used by other bigger components are reusable. These bigger components are sometimes called smart components or containers (stored in `app/containers`). These will also host the business logic.
+```
 
-There are two main types of state, internal component state, and application state. The internal component state will be unique to the component, and cannot be accessed by other components, unless passed as an input, known as a prop. The application state can be accessed by the entire application, and is explained in detail below.
 
-## SYSTEM ARCHITECTURE
+# System archicture
 
 The structure of the app follows the [Flux principles](https://github.com/facebook/flux/tree/master/examples/flux-concepts). Flux is a pattern for a managing data-flow in an application, where data only travels in one direction. For this application, Redux has been used. There are 4 parts in the flux system: view, action, dispatcher and the store.
 
-### The store
+## The store
 The store is where the hierarchical data is held. This universal tree of data can be accessed from wherever in the application, and seeks to maintain consistent state throughout it. While this information can be accessed by any component, it must only be manipulated in response to an action. When the store changes, an event should be emitted to notify views connected to it, that they should update the information displayed (if applicable).
 
 In this application, 2 ways of accessing the store have been used; 
 1. Directly on the actions
 2. Using `connect` on the components
 
-#### 1. Directly
+### 1. Directly
 If it is not necessary to change the state, then one can access the state directly. In this particular instance, `getHost` is a function which fetches the `state.settings.host` on execution.
 ```js
 getHost = () => store.getState().settings.host
 ```
-#### 2. connect
+### 2. connect
 `connect` can only be used from a component, and allows the component to interact with the store (both retrieve information, and dipatch changes).
 
 ```js
@@ -155,7 +303,7 @@ export default connect( mapStateToProps, mapDispatchToProps)(WalletList)
 
 More can be read about connect [here](https://www.sohamkamani.com/blog/2017/03/31/react-redux-connect-explained/).
 
-###  The dispatcher
+##  The dispatcher
 The dispatcher will receive an action and make the appropriate changes to the store. In redux, there is no concept of a dispatcher. Actions are dispatched from views, and handled by the reducers. The reducers are in charge of manipulating the store according to the actions emitted. This is not an appropriate place to have any logic as this would make debugging the application more cumbersome.
 
 ```js
@@ -182,7 +330,7 @@ export default (state = initialState, action) => {
 
 `ModalReducer.js` above, is the reducer for the modals. `initialState` holds the hidden (no modal) state. If there is no state when the reducer is called, `initialState` will be used as the state. 
 
-### Actions
+## Actions
 Actions define what functions are to be called to fulfil any command which may be carried out. These can be anything from logging into the application, to deleting an image from the profile. They can be both asynchronous or not. While asynchronous actions may have some logic to execute a request or query, it is encouraged that actions stay as minimal as possible, without manipulating the data.
 
 ```js
@@ -224,7 +372,7 @@ Above we have 2 action functions; `receiveCreateTokens` is synchronous, and `fet
 Actions are stored in `app/actions`, and have been separated into modules like the reducers for simiplicity. Note that they also use the constants in `app/constants/ActionTypes.js`.
 
 
-### Views
+## Views
 Views are in charge of both dispatching actions, and displaying data from the store. All data manipulation logic belongs here.
 
 ```js
@@ -257,3 +405,180 @@ export default WalletList
 Above `WalletList` takes the props `tokens`, `refreshing`, and `refresh`. These were passed to it by `Wallet` in the snippet further up.
 
 All views are stored either in `app/containers` or in `app/components`, except for `App.js` and `app/index.js`.
+
+# What's happening on the back-end
+
+## The smart contract
+
+Two contracts were made `AllPurpose` and `AllPurposeCapped`.
+Users deploying an AllPurpose contract can choose:
+- Name
+- Symbol
+- Purpose
+- Decimals
+- Whether it can be minted
+- Whether it can be burnt
+- Whether it can be transferred
+Users deploying an AllPurposeCapped contract can choose:
+- All features in AllPurpose
+- Cap
+
+They were made separately to avoid a function conﬂict between inherited classes, however the user of the app/API is olbivious to this as the API decides which contract to use depending on the inputs.
+
+![UML](./.readme-assets/UML.png)
+
+The `AllPurpose` contract inherits functions from contracts predefined by OpenZeppelin. These are
+`ERC20Mintable` (which will allow the contract to be mintable), `ERC20Burnable` (which will allow the contract to be burnable), and `ERC20Pausable` (which will allow the contract to be non-transferable). 
+```
+// server/ethereum/zeppelin-contracts/fin4/AllPurpose.sol
+// [...]
+
+contract AllPurpose is ERC20Mintable, ERC20Burnable, ERC20Pausable {
+
+// [...]
+```
+
+Functions have been overridden to make sure that public functions (functions which can be run from outside the contract) only run when they are authorised to. For example the first line of the function `burn(value)`, `require(isBurnable, "Coin not burnable")`, makes sure that `isBurnable` (variable which holds whether the token is burnable or not) is true, and then with `super.burn(value)` executes the parent implementation of the function. If isBurnable is false, the function will return an exception. 
+
+```
+// server/ethereum/zeppelin-contracts/fin4/AllPurpose.sol
+// [...]
+
+  bool   public  isBurnable;
+
+// [...]
+
+  function burn(uint256 value) public {
+      // Checks whether token is burnable before minting
+      require(isBurnable, "Coin not burnable");
+      super.burn(value);
+  }
+// [...]
+```
+
+The function `pause()` on line 47, makes a token untransferable. It is necessary that once it has been decided that a token is transferable or not, that it not change to the other. Therefore functions `pause()` and `unpause()` can only be run while the constructor is being run.
+
+```
+// [...]
+
+  function pause() public{
+    // Checks whether token is being constructed, throws exception if not
+    require(constructing, "this function can only be run on creation");
+    super.pause();
+  }
+
+  function unpause() public{
+    // Checks whether token is being constructed, throws exception if not
+    require(constructing, "this function can only be run on creation");
+  }
+
+// [...]
+```
+
+In the constructor, the `_addMinter(minter)` function on line 76, gives the `minter` passed as a parameter minting responsibilities, and the `_mint(msg.sender, INITIAL_SUPPLY)` function mints the predefined initial supply into the message sender's wallet. After this, the constructing variable is set to false, to indicate the construction of the contract has finalised, and that `pause()` and `unpause()` can no longer be called.
+
+```
+// [...]
+  constructor(
+    string name_,
+    string symbol_,
+    uint8 decimals_,
+    address minter,
+    bool isBurnable_,
+    bool isTransferable_,
+    bool isMintable_)
+      public
+  {
+    name = name_;
+    symbol = symbol_;
+    decimals = decimals_;
+    isBurnable = isBurnable_;
+    isTransferable = isTransferable_;
+    isMintable = isMintable_;
+    if(!isTransferable_){
+      pause();
+    }
+    // [ LINE 75 ]
+    _addMinter(minter);
+    _mint(msg.sender, INITIAL_SUPPLY);
+    // To indicate construction is over, and block pause() and unpause()
+    // from being used
+    constructing = false;
+  }
+}
+// [...]
+```
+
+For AllPurposeCapped, the ERC20Capped constructor, is called before the rest of the constructor logic.
+
+```
+contract AllPurposeCapped is ERC20Capped, AllPurpose {
+
+  constructor(
+    string name_,
+    string symbol_,
+    uint8 decimals_,
+    address minter,
+    bool isBurnable_,
+    uint cap_,
+    bool isTransferable_,
+    bool isMintable_)
+      public
+
+      // ERC2Capped constructor
+      ERC20Capped(cap_)
+
+      // AllPurpose constructor
+      AllPurpose(
+          name_,
+          symbol_,
+          decimals_,
+          minter,
+          isBurnable_,
+          isTransferable_,
+          isMintable_)
+  {
+  }
+}
+```
+
+## The API endpoint
+
+A new endpoint, `/ap-assets`, has been added for more versatile tokens than the ones created through the web.
+- `/ap-assets` is the endpoint for a more conﬁgurable token. If `cap == 0` , the API will know that it must use the `AllPurpose` contract, and if the `cap > 0` , `AllPurposeCapped` will be used.
+- `/assets` will remain for legacy token creation.
+
+The app developed will make tokens through the `/ap-assets` endpoint.
+
+Since the web front-end has been left untouched, it will continue to create tokens through `/assets`, however, these tokens are made with the `AllPurpose` contract instead of the `Mintable` contract (previous creating contract). Please note that this `AllPurpose` function encompasses both `AllPurpose` AND `AllPurposeCapped`, it is one level deeper, under `server/ethereum/ethereum.go` on line 88, where the distinction between the two contracts is made.
+
+Tokens made through `/assets` are mintable, burnable, transferable and uncapped. The behaviour of these tokens can be changed by editing the CreateAsset function in `server/assethandlers/create-asset.go` between lines 68 and 77.
+```go
+// server/assethandlers/create-asset.go
+// [...]
+// line 68
+add, tx, err := sc.Ethereum.DeployAllPurpose(
+  body.Name,
+  body.Symbol,
+  8,
+  common.HexToAddress(user.EthereumAddress),
+  true, // true if burnable
+  true, // true if transferable
+  true, // true if mintable
+  0,    // cap
+)
+```
+
+Tests and documentation on them can be found [here](https://github.com/FuturICT2/fin4-core/pull/30/files#diff-d8b39286514ecd5b647dfb4feb9f8183).
+
+# About React Native and Redux
+ 
+The task proposed was to make a modern looking native app for Android. Having considered Flutter and Kotlin, a framework which could be tested on iOS was needed, so that meant Kotlin could not be used. React Native had more documentation and looked easier than Flutter, so it was decided to write the program in React Native. React Native is a framework for creating native apps for iOS, Android and other platforms using React and JavaScript.
+
+In React and React Native, different components are conflated together into other components to make an app. The idea is that the smaller components, or presentational components (stored in `app/components`), used by other bigger components are reusable. These bigger components are sometimes called smart components or containers (stored in `app/containers`). These will also host the business logic.
+
+There are two main types of state, internal component state, and application state. The internal component state will be unique to the component, and cannot be accessed by other components, unless passed as an input, known as a prop. The application state can be accessed by the entire application, and is explained in detail below.
+
+
+
+[1]: Mark C Ballandies, Marcus M Dapp, and Evangelos Pournaras. Decrypting distributed ledger design-taxonomy, classification and blockchain community evaluation. arXiv preprint arXiv:1811.03419, 2018.
