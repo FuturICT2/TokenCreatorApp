@@ -179,7 +179,7 @@ Integrating a new ﬁeld to the form is extremely easy:
 // [...]
     />
   </ScrollView>
-</KeyboardAvioidingView>
+</KeyboardAvoidingView>
 ```
 2. Add the `Input` ﬁeld inside the `React.Fragment` component (between lines 102 and 182), making sure you respect other `Input` ﬁelds.
 ```jsx
@@ -429,7 +429,7 @@ They were made separately to avoid a function conﬂict between inherited classe
 
 The `AllPurpose` contract inherits functions from contracts predefined by OpenZeppelin. These are
 `ERC20Mintable` (which will allow the contract to be mintable), `ERC20Burnable` (which will allow the contract to be burnable), and `ERC20Pausable` (which will allow the contract to be non-transferable). 
-```
+```Solidity
 // server/ethereum/zeppelin-contracts/fin4/AllPurpose.sol
 // [...]
 
@@ -440,7 +440,7 @@ contract AllPurpose is ERC20Mintable, ERC20Burnable, ERC20Pausable {
 
 Functions have been overridden to make sure that public functions (functions which can be run from outside the contract) only run when they are authorised to. For example the first line of the function `burn(value)`, `require(isBurnable, "Coin not burnable")`, makes sure that `isBurnable` (variable which holds whether the token is burnable or not) is true, and then with `super.burn(value)` executes the parent implementation of the function. If isBurnable is false, the function will return an exception. 
 
-```
+```Solidity
 // server/ethereum/zeppelin-contracts/fin4/AllPurpose.sol
 // [...]
 
@@ -458,7 +458,7 @@ Functions have been overridden to make sure that public functions (functions whi
 
 The function `pause()` on line 47, makes a token untransferable. It is necessary that once it has been decided that a token is transferable or not, that it not change to the other. Therefore functions `pause()` and `unpause()` can only be run while the constructor is being run.
 
-```
+```Solidity
 // [...]
 
   function pause() public{
@@ -477,7 +477,7 @@ The function `pause()` on line 47, makes a token untransferable. It is necessary
 
 In the constructor, the `_addMinter(minter)` function on line 76, gives the `minter` passed as a parameter minting responsibilities, and the `_mint(msg.sender, INITIAL_SUPPLY)` function mints the predefined initial supply into the message sender's wallet. After this, the constructing variable is set to false, to indicate the construction of the contract has finalised, and that `pause()` and `unpause()` can no longer be called.
 
-```
+```Solidity
 // [...]
   constructor(
     string name_,
@@ -511,7 +511,7 @@ In the constructor, the `_addMinter(minter)` function on line 76, gives the `min
 
 For AllPurposeCapped, the ERC20Capped constructor, is called before the rest of the constructor logic.
 
-```
+```Solidity
 contract AllPurposeCapped is ERC20Capped, AllPurpose {
 
   constructor(
