@@ -408,6 +408,85 @@ All views are stored either in `app/containers` or in `app/components`, except f
 
 # What's happening on the back-end
 
+## How a token is created (from app to blockchain)
+
+1. The token creator app makes an API call to `[server address]:8181/wapi/ap-assets`
+2. `server/assethandlers/routing.go` receives this call:
+  ```go
+  // server/assethandlers/routing.go
+  // [...]
+  // LINE 18
+  rg.POST("/ap-assets", authenticator, CreateAllPurposeAsset(sc))
+  // [...]
+  ```
+3. This will first authenticate the request, and then call `CreateAllPurposeAsset(sc)` in `server/assethandlers/create-asset.go`. This function is in charge of parsing the JSON request holding the token details, and feeding this information to `DeployAllPurpose()`. Please note that this `DeployAllPurpose()` function encompasses both `AllPurpose` AND `AllPurposeCapped`
+```go
+user := auth.MustGetUser(c)
+body := struct {
+  Name           string `json:"name"`
+  Purpose        string `json:"purpose"`
+  Symbol         string `json:"symbol"`
+  Decimals       uint8  `json:"decimals"`
+  Cap            uint64 `json:"cap"`
+  IsBurnable     bool   `json:"isBurnable"`
+  IsTransferable bool   `json:"isTransferable"`
+  IsMintable     bool   `json:"isMintable"`
+}{}
+c.BindJSON(&body)
+add, tx, err := sc.Ethereum.DeployAllPurpose(
+  body.Name,
+  body.Symbol,
+  body.Decimals,
+  common.HexToAddress(user.EthereumAddress),
+  body.IsBurnable,
+  body.IsTransferable,
+  body.IsMintable,
+  body.Cap,
+)
+```
+4. `DeployAllPurpose()` belongs to `server/ethereum/ethereum.go` on line 72. This function decides whether to deploy an `AllPurpose` or an `AllPurposeCapped` depending on the parameters (specifically the cap).
+```go
+if cap > 0 {
+  address, tx, _, err = DeployAllPurposeCapped(
+    b.auth,
+    // change here to rpc and it will deploy to rpc
+    b.rpc,
+    name_,
+    symbol_,
+    decimals_,
+    minter,
+    isBurnable_,
+    new(big.Int).SetUint64(cap),
+    isTransferable_,
+    isMintable_,
+  )
+  // If the cap = 0, a cap does not exist, and an AllPurpose is built
+} else {
+  address, tx, _, err = DeployAllPurpose(
+    b.auth,
+    // change here to rpc and it will deploy to rpc
+    b.rpc,
+    name_,
+    symbol_,
+    decimals_,
+    minter,
+    isBurnable_,
+    isTransferable_,
+    isMintable_,
+  )
+```
+
+5. Functions `DeployAllPurposeCapped()` and `DeployAllPurpose()` called in `server/ethereum/ethereum.go` call the binding between Go and the Solidity contract. Bindings are necessary to communicate between Go and the smart contract. Below are the commands to [create a binding](https://github.com/FuturICT2/fin4-core/tree/master/server/ethereum). Note that since there are 2 contracts (`AllPurpose` & `AllPurposeCapped`) in one file `server/ethereum/zeppelin-contracts/fin4/AllPurpose.sol`, it is necessary to:
+    1. Compile `server/ethereum/zeppelin-contracts/fin4/AllPurpose.sol` (once)
+    2. Create a binding for each contract, one for `AllPurpose`, another for `AllPurposeCapped` 
+```bash
+solc --bin --abi -o ./compiled --overwrite --allow-paths . ./zeppelin-contracts/token/fin4/AllPurpose.sol
+abigen --abi compiled/AllPurpose.abi --pkg ethereum --type AllPurpose --out AllPurpose.go --bin compiled/AllPurpose.bin
+abigen --abi compiled/AllPurposeCapped.abi --pkg ethereum --type AllPurpose --out AllPurposeCapped.go --bin compiled/AllPurposeCapped.bin
+```
+6. The smart contract is constructed following the logic on `server/ethereum/zeppelin-contracts/fin4/AllPurpose.sol`, and deployed.
+
+
 ## The smart contract
 
 Two contracts were made `AllPurpose` and `AllPurposeCapped`.
@@ -550,7 +629,7 @@ A new endpoint, `/ap-assets`, has been added for more versatile tokens than the 
 
 The app developed will make tokens through the `/ap-assets` endpoint.
 
-Since the web front-end has been left untouched, it will continue to create tokens through `/assets`, however, these tokens are made with the `AllPurpose` contract instead of the `Mintable` contract (previous creating contract). Please note that this `AllPurpose` function encompasses both `AllPurpose` AND `AllPurposeCapped`, it is one level deeper, under `server/ethereum/ethereum.go` on line 88, where the distinction between the two contracts is made.
+Since the web front-end has been left untouched, it will continue to create tokens through `/assets`, however, these tokens are made with the `AllPurpose` contract instead of the `Mintable` contract (previous creating contract).
 
 Tokens made through `/assets` are mintable, burnable, transferable and uncapped. The behaviour of these tokens can be changed by editing the CreateAsset function in `server/assethandlers/create-asset.go` between lines 68 and 77.
 ```go
@@ -569,7 +648,7 @@ add, tx, err := sc.Ethereum.DeployAllPurpose(
 )
 ```
 
-Tests and documentation on them can be found [here](https://github.com/FuturICT2/fin4-core/pull/30/files#diff-d8b39286514ecd5b647dfb4feb9f8183).
+Tests and documentation on them can be found [here](https://github.com/FuturICT2/fin4-core/blob/versatile-token/server/ethereum/tests/README.md).
 
 # About React Native and Redux
  
