@@ -78,7 +78,7 @@ export function fetchAuth(credentials){
 
   return function(dispatch) {
     dispatch(requestAuth(credentials))
-    let url = 'http://' + getHost() + ':8181/wapi/login'
+    let url = 'http://' + getHost() + '/wapi/login'
     Reactotron.log("url", url, credentials)
     return fetch( url, {
         method: 'POST',
@@ -99,7 +99,7 @@ export function fetchLogout(){
 
   return function(dispatch) {
     dispatch(requestLogout())
-    return fetch( 'http://' + getHost() + ':8181/wapi/logout', {
+    return fetch( 'http://' + getHost() + '/wapi/logout', {
         method: 'POST',
         headers: {
           Accept: 'application/json',
@@ -124,7 +124,7 @@ export function fetchSignup(values){
 
   return function(dispatch) {
     dispatch(requestSignup())
-    return fetch( 'http://' + getHost() + ':8181/wapi/register', {
+    return fetch( 'http://' + getHost() + '/wapi/register', {
         method: 'POST',
         headers: {
           Accept: 'application/json',
@@ -166,7 +166,7 @@ function showError( error, dispatch ){
 export function fetchTokens(){
   return function(dispatch) {
     // dispatch(requestSignup())
-    return fetch( 'http://' + getHost() + ':8181/wapi/assets', {
+    return fetch( 'http://' + getHost() + '/wapi/assets', {
         method: 'GET',
         headers: {
           Accept: '*/*',
@@ -181,7 +181,7 @@ export function fetchBalances(){
 
   return function(dispatch) {
     // dispatch(requestSignup())
-    return fetch( 'http://' + getHost() + ':8181/wapi/balances', {
+    return fetch( 'http://' + getHost() + '/wapi/balances', {
         method: 'GET',
         headers: {
           Accept: '*/*',
@@ -201,7 +201,7 @@ export function fetchCreateToken(token){
 
   return function(dispatch) {
     // dispatch(requestSignup())
-    return fetch( 'http://' + getHost() + ':8181/wapi/ap-assets', {
+    return fetch( 'http://' + getHost() + '/wapi/ap-assets', {
         method: 'POST',
         headers: {
           Accept: 'application/json',
