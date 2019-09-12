@@ -1,3 +1,7 @@
+⚠️ *This repository is no longer active. Together with other strands of work it is further pursued here: [FIN4XPLORER](https://github.com/FuturICT2/FIN4XPLORER)*
+
+<hr>
+
 # Finance 4.0 Native Mobile App
 
 This repository contains a front-end of the Finance 4.0 developed in React Native for Android and iOS devices.
